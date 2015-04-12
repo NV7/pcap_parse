@@ -1,0 +1,8 @@
+D:\TempC#\MSVS2013\PcapdotNET\PcapdotNET\bin\Debug\PcapdotNET.exe.config
+D:\TempC#\MSVS2013\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe.config
+D:\TempC#\MSVS2013\PcapdotNET\Source\Build\AnyCPU\Debug\PcapdotNET.exe.config
+D:\TempC#\MSVS2013\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe
+D:\TempC#\MSVS2013\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.pdb
+D:\TempC#\MSVS2013\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.csprojResolveAssemblyReference.cache
+D:\TempC#\MSVS2013\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.exe
+D:\TempC#\MSVS2013\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.pdb
