@@ -11,14 +11,9 @@
         // Номер порта
         public enum PortNumber
         {
-            /// <summary>
-            /// Minimum value
-            /// </summary>
+
             MinPortNumber = 0,
 
-            /// <summary>
-            /// Maximum value
-            /// </summary>
             MaxPortNumber = 65535
         }
     }
