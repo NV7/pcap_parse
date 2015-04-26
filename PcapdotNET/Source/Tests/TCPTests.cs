@@ -1,16 +1,13 @@
-﻿using System;
-using NUnit.Framework;
-using PcapdotNET.Protocols.TCP;
+﻿using NUnit.Framework;
 
 namespace Tests
 {
     [TestFixture]
-    public class TestTCPFrameParse 
+    public class TestTCPFrameParse
     {
         [Test]
         public void NoFileTest()
         {
-
         }
     }
 }

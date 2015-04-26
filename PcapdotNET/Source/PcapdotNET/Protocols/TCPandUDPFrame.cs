@@ -1,7 +1,7 @@
 ﻿namespace PcapdotNET.Protocols.TCP
 {
-    // TCPFrame - contains information about processed frame
-    internal class TCPFrame
+    // TCPandUDPFrame - contains information about processed frame (UDP & TCP files)
+    internal class TCPandUDPFrame
     {
         private readonly int[] DestinationIP = new int[4];  //4 parts of IP address
         private readonly uint DestinationPort;              //2 bytes for the destination port number
@@ -10,7 +10,7 @@
         private readonly int[] SourceIP = new int[4];       //4 parts for source ip
         private readonly uint SourcePort;                   //2 bytes for the source port number
 
-        public TCPFrame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,
+        public TCPandUDPFrame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,
             uint _SourcePort,
             uint _ProtocolNumber)
         {
@@ -32,18 +32,15 @@
 
         public string GetProtocolName()
         {
-            return "TCP";
-            //switch (ProtocolNumber)
-            //{
-            //    case 1:
-            //        return "ICMP";
-            //    case 6:
-            //        return "TCP";
-            //    case 17:
-            //        return "UDP";
-            //    default:
-            //        return "Unknown";
-            //}
+            switch (ProtocolNumber)
+            {
+                case 6:
+                    return "TCP";
+                case 17:
+                    return "UDP";
+                default:
+                    return "Not stated";
+            }
         }
 
         public string GetProtocolNumber()

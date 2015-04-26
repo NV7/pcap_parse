@@ -52,10 +52,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EthernetProtocolChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Protocols\TCP\TCPFrame.cs" />
-    <Compile Include="Protocols\TCP\TCPProtocolParser.cs" />
+    <Compile Include="Protocols\EthernetFrame.cs" />
+    <Compile Include="Protocols\TCPandUDPFrame.cs" />
+    <Compile Include="Protocols\FileParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
