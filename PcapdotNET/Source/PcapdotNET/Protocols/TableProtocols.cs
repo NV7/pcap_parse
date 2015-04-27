@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PcapdotNET.Annotations;
 
 namespace PcapdotNET.Protocols
 {
-    static class TableProtocols
+    public class TableProtocols
     {
-        [UsedImplicitly] private static string[] _tableProtocols;
+        private static string[] _tableProtocols = new string [134];
 
-        static TableProtocols()
+        public string GetProtocol(int index)
         {
             _tableProtocols[0] = "HOPOPT";  //IPv6 Hop-by-Hop Option
             _tableProtocols[1] = "ICMP";    //Internet Control Message
@@ -152,6 +148,8 @@ namespace PcapdotNET.Protocols
              * 134-254 - free numbers
              * 255 - reserved number 
              * */
+
+            return _tableProtocols[index];
         }
     }
 }
