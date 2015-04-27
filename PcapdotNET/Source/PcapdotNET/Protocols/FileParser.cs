@@ -112,6 +112,8 @@ namespace PcapdotNET.Protocols.TCP
                 {
                     Console.WriteLine(e.Message);
                 }
+
+                reader.Close();
             }
             else throw new FileNotFoundException();
         }
