@@ -1,7 +1,7 @@
 ﻿namespace PcapdotNET.Protocols.TCP
 {
     // TCPandUDPFrame - contains information about processed frame (UDP & TCP files)
-    internal class TCPandUDPFrame
+    public class TCPandUDPFrame
     {
         private readonly int[] DestinationIP = new int[4];  //4 parts of IP address
         private readonly uint DestinationPort;              //2 bytes for the destination port number
@@ -34,6 +34,8 @@
         {
             switch (ProtocolNumber)
             {
+                case 1:
+                    return "ICMP";
                 case 6:
                     return "TCP";
                 case 17:
