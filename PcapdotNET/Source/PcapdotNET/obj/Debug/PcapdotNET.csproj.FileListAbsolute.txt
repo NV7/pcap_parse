@@ -1,5 +1,17 @@
-D:\GITHUB\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.dll.config
-D:\GITHUB\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.dll
-D:\GITHUB\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.pdb
-D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.dll
+D:\TempC#\MSVS2013\PcapdotNET\PcapdotNET\bin\Debug\PcapdotNET.exe.config
+D:\TempC#\MSVS2013\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe.config
+D:\TempC#\MSVS2013\PcapdotNET\Source\Build\AnyCPU\Debug\PcapdotNET.exe.config
+D:\TempC#\MSVS2013\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe
+D:\TempC#\MSVS2013\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.pdb
+D:\TempC#\MSVS2013\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.csprojResolveAssemblyReference.cache
+D:\TempC#\MSVS2013\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.exe
+D:\TempC#\MSVS2013\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.pdb
+D:\GITHUB\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe.config
+D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.exe
 D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.pdb
+D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.csprojResolveAssemblyReference.cache
+<<<<<<< HEAD
+=======
+C:\Users\Сергей\Documents\GitHub\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe.config
+C:\Users\Сергей\Documents\GitHub\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.exe
+>>>>>>> 72f42a5c1928fa3c08074d92096e0aa3b99caf25

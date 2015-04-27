@@ -52,10 +52,10 @@ namespace PcapdotNET.Protocols.TCP
                         reader.ReadBytes(4);
 
                         // Get Ethernet info
-                        for (var i = 0; i < 6; ++i)
+                        for (int i = 0; i < 6; ++i)
                             EthernetDestinationIP[i] = reader.ReadByte();
 
-                        for (var i = 0; i < 6; ++i)
+                        for (int i = 0; i < 6; ++i)
                             EthernetSourceIP[i] = reader.ReadByte();
 
                         // Missed
@@ -69,23 +69,23 @@ namespace PcapdotNET.Protocols.TCP
                         reader.ReadByte();
 
                         // Fill Source & Destination IP
-                        for (var i = 0; i < 4; ++i)
+                        for (int i = 0; i < 4; ++i)
                             SourceIP[i] = reader.ReadByte();
 
-                        for (var j = 0; j < 4; ++j)
+                        for (int j = 0; j < 4; ++j)
                             DestinationIP[j] = reader.ReadByte();
 
 
                         // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
                         var DraftPort = new uint[2];
 
-                        for (var i = 0; i < 2; ++i)
+                        for (int i = 0; i < 2; ++i)
                             DraftPort[i] = reader.ReadByte();
 
                         SourcePort = DraftPort[0]*256 + DraftPort[1];
 
 
-                        for (var i = 0; i < 2; ++i)
+                        for (int i = 0; i < 2; ++i)
                             DraftPort[i] = reader.ReadByte();
 
                         DestinationPort = DraftPort[0]*256 + DraftPort[1];
@@ -112,8 +112,6 @@ namespace PcapdotNET.Protocols.TCP
                 {
                     Console.WriteLine(e.Message);
                 }
-
-                reader.Close();
             }
             else throw new FileNotFoundException();
         }
