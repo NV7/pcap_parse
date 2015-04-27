@@ -10,3 +10,5 @@ D:\GITHUB\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe.config
 D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.exe
 D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.pdb
 D:\GITHUB\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.csprojResolveAssemblyReference.cache
+C:\Users\Сергей\Documents\GitHub\pcap_parse\PcapdotNET\Build\AnyCPU\Debug\PcapdotNET.exe.config
+C:\Users\Сергей\Documents\GitHub\pcap_parse\PcapdotNET\Source\PcapdotNET\obj\Debug\PcapdotNET.exe
