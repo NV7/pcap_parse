@@ -1,7 +1,10 @@
-﻿namespace PcapdotNET.Protocols.TCP
+﻿using PcapdotNET.Annotations;
+
+namespace PcapdotNET.Protocols.TCP
 {
+
     // TCPandUDPFrame - contains information about processed frame (UDP & TCP files)
-    internal class TCPandUDPFrame
+    public class TCPandUDPFrame
     {
         private readonly int[] DestinationIP = new int[4];  //4 parts of IP address
         private readonly uint DestinationPort;              //2 bytes for the destination port number
@@ -9,6 +12,7 @@
         private readonly uint ProtocolNumber;               //2 bytes for the source port number
         private readonly int[] SourceIP = new int[4];       //4 parts for source ip
         private readonly uint SourcePort;                   //2 bytes for the source port number
+        private readonly TableProtocols ex = new TableProtocols();
 
         public TCPandUDPFrame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,
             uint _SourcePort,
@@ -32,15 +36,7 @@
 
         public string GetProtocolName()
         {
-            switch (ProtocolNumber)
-            {
-                case 6:
-                    return "TCP";
-                case 17:
-                    return "UDP";
-                default:
-                    return "Not stated";
-            }
+            return ex.GetProtocol((int)ProtocolNumber);
         }
 
         public string GetProtocolNumber()
