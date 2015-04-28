@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\EthernetFrame.cs" />
+    <Compile Include="Protocols\TableProtocols.cs" />
     <Compile Include="Protocols\TCPandUDPFrame.cs" />
     <Compile Include="Protocols\FileParser.cs" />
   </ItemGroup>
