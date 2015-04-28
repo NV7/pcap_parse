@@ -1,0 +1,97 @@
+﻿<CorruptedSettingsDescription>
+  <Exception Message="Знак &quot;&lt;&quot;, шестнадцатеричное значение 0x3C, не может стоять в начале имени., строка 2, позиция 2." Kind="Error">Знак "&lt;", шестнадцатеричное значение 0x3C, не может стоять в начале имени., строка 2, позиция 2.
+
+--- EXCEPTION #1/2 [XmlException]
+Message = “Знак "&lt;", шестнадцатеричное значение 0x3C, не может стоять в начале имени., строка 2, позиция 2.”
+ExceptionPath = Root.InnerException
+ClassName = System.Xml.XmlException
+HResult = Xml=80131940
+Source = System.Xml
+res = Xml_BadStartNameChar
+args.#0 = &lt;
+args.#1 = 0x3C
+lineNumber = 2
+linePosition = 2
+version = 2.0
+StackTraceString = “
+  в System.Xml.XmlTextReaderImpl.Throw(Exception e)
+     в System.Xml.XmlTextReaderImpl.Throw(String res, String[] args)
+     в System.Xml.XmlTextReaderImpl.ParseQName(Boolean isQName, Int32 startOffset, Int32&amp; colonPos)
+     в System.Xml.XmlTextReaderImpl.ParseElement()
+     в System.Xml.XmlTextReaderImpl.ParseElementContent()
+     в System.Xml.XmlTextReaderImpl.Read()
+     в JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step_GenericRead_SkipToElement()
+”
+
+--- Outer ---
+
+--- EXCEPTION #2/2 [LoggerException]
+Message = “Знак "&lt;", шестнадцатеричное значение 0x3C, не может стоять в начале имени., строка 2, позиция 2.”
+ExceptionPath = Root
+ClassName = JetBrains.Util.LoggerException
+InnerException = “Exception #1 at Root.InnerException”
+HResult = COR_E_APPLICATION=80131600
+StackTraceString = “
+  в JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step_GenericRead_SkipToElement()
+     в JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step_GenericRead()
+     в JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step()
+     в JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Run(XmlReader reader, EntryPositionsFlag entryPositionsFlag)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;&gt;c__DisplayClass4c.&lt;&gt;c__DisplayClass4e.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__40(XmlReader xmlreader)
+     в JetBrains.Util.XmlReaderEx.ReadXml(Stream stream, Action`1 FRead)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;&gt;c__DisplayClass4c.&lt;&gt;c__DisplayClass4e.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3f(Stream streamR)
+     в JetBrains.Util.FileSystemPathEx.ReadStream(FileSystemPath path, Action`1 FRead)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;&gt;c__DisplayClass4c.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3e()
+     в JetBrains.Util.Logging.Logger.Catch(Action action)
+     в JetBrains.Util.XmlWriterEx.InElement(XmlWriter writer, String name, Action nested, Boolean writeFullEndElement)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3d(XmlWriter xmlwriter)
+     в JetBrains.Util.XmlWriterEx.WriteXml(Stream stream, Action`1 FWrite)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3c(Stream stream)
+     в JetBrains.Util.FileSystemPathEx.WriteStream(FileSystemPath path, Action`1 FWrite)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.Save_WriteFile_BackupOldCorruptedFile(FileSystemPath path)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass2b.&lt;Save_WriteFile&gt;b__1e()
+     в JetBrains.Util.ILoggerEx.Catch(ILogger thіs, Action F, ExceptionOrigin origin)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.Save_WriteFile(SaveDiffFlags flagsDiff, SaveForcedFlags flagsForced)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.Save(SaveDiffFlags flagsDiff, SaveForcedFlags flagsForced)
+     в JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;Init_FirstLoadLastSave&gt;b__1()
+     в JetBrains.DataFlow.IPropertySignalEx.&lt;&gt;c__DisplayClass1`1.&lt;Advise_FallingFront&gt;b__0(PropertyChangedEventArgs`1 args)
+     в JetBrains.DataFlow.Property`1.PropertyChangeSignal.Acknowledge(Action`1 handler, AddRemove addremove)
+     в JetBrains.DataFlow.Property`1.PropertyChangeSignal.OnAfterUnadvise(Action`1 handler)
+     в JetBrains.DataFlow.Signal`1.&lt;&gt;c__DisplayClass2.&lt;AdviseCore&gt;b__1()
+     в JetBrains.DataFlow.Lifetime.Terminate()
+     в JetBrains.Application.Components.LifetimeValueResolver.LifetimeDescriptor.Dispose()
+     в JetBrains.Application.Components.SingletonDescriptor.DisposeImpl()
+     в JetBrains.Application.Components.SingletonDescriptor.System.IDisposable.Dispose()
+     в JetBrains.Application.Components.ComponentStorage.DisposeDescriptor(IComponentDescriptor descriptor)
+     в JetBrains.Application.Components.ComponentStorage.&lt;&gt;c__DisplayClassb.&lt;RegisterDescriptors&gt;b__9()
+     в JetBrains.DataFlow.Lifetime.Terminate()
+     в JetBrains.DataFlow.ICollectionEventsEx.&lt;&gt;c__DisplayClass15`1.&lt;ForEachItemCore&gt;b__12(AddRemoveEventArgs`1 args)
+     в JetBrains.DataFlow.CollectionEvents`1.OnAcknowledgeSinkAddRemove(Action`1 handler, AddRemove addremove)
+     в JetBrains.DataFlow.CollectionEvents`1.&lt;.ctor&gt;b__1(Action`1 handler)
+     в JetBrains.DataFlow.Infra.SignalWithDelegates`1.OnAfterUnadvise(Action`1 handler)
+     в JetBrains.DataFlow.Signal`1.&lt;&gt;c__DisplayClass2.&lt;AdviseCore&gt;b__1()
+     в JetBrains.DataFlow.Lifetime.Terminate()
+     в JetBrains.ProjectModel.SolutionInstance.CloseSolutionInstance()
+     в JetBrains.ProjectModel.SolutionManagerBase.CloseSolutionInstance(SolutionInstance instance)
+     в JetBrains.VsIntegration.ProjectDocuments.VSSolutionManager.CloseSolutionInstance(SolutionInstance instance)
+     в JetBrains.VsIntegration.ProjectDocuments.VSSolutionManager.&lt;&gt;c__DisplayClass23.&lt;OnBeforeCloseSolution&gt;b__21()
+     в JetBrains.Util.Concurrency.UnguardedCallbackMerger.&lt;&gt;c__DisplayClass3.&lt;ExecuteOrQueueOrMerge&gt;b__0()
+     в JetBrains.Threading.ReentrancyGuard.Execute(String name, Action action)
+     в JetBrains.Threading.ReentrancyGuard.TryExecute(String name, Action action)
+     в JetBrains.Threading.ReentrancyGuardEx.ExecuteOrQueue(ReentrancyGuard thіs, Lifetime lifetime, String name, Action F)
+     в JetBrains.Util.Concurrency.UnguardedCallbackMerger.ExecuteOrQueueOrMerge(Lifetime lifetimeQueue, String name, Action F)
+     в JetBrains.VsIntegration.ProjectDocuments.VSSolutionManager.OnBeforeCloseSolution(Object pUnkReserved)
+”
+</Exception>
+  <!--The backup file has been created before writing in-memory changes to the settings file. As the existing settings file is corrupted, many settings might get lost when writing the new content. If you'd like to restore the settings from the previous version, here're the changes against the backed-up version (note: subsequent changes are not reflected here).-->
+  <InMemoryChanges>
+    <SetValue>
+      <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <s:Boolean x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=7457A197568C471B9A303988A7F4C3F3/@KeyIndexDefined">True</s:Boolean>
+        <s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=7457A197568C471B9A303988A7F4C3F3/SnapshotLocation/@EntryValue">C:\Users\Николай\AppData\Local\Temp\ssm.Nixolyc.tmp</s:String>
+      </ResourceDictionary>
+    </SetValue>
+    <ClearValue>
+      <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    </ClearValue>
+  </InMemoryChanges>
+</CorruptedSettingsDescription>
