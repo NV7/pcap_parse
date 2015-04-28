@@ -1,5 +1,5 @@
 ﻿using System;
-using PcapdotNET.Annotations;
+//using PcapdotNET.Annotations;
 
 namespace PcapdotNET.Protocols
 {
