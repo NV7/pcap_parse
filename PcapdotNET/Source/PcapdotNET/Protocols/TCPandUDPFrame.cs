@@ -3,11 +3,11 @@
     // TCPandUDPFrame - contains information about processed frame (UDP & TCP files)
     public class TCPandUDPFrame
     {
-        private readonly int[] DestinationIP = new int[4];  //4 parts of IP address
+        private readonly int[] DestinationIP = new int[PacketFields.AmountOfIPParts];  //4 parts of IP address
         private readonly uint DestinationPort;              //2 bytes for the destination port number
         private readonly uint FrameLength;                  //4 bytes for frame length
         private readonly uint ProtocolNumber;               //2 bytes for the source port number
-        private readonly int[] SourceIP = new int[4];       //4 parts for source ip
+        private readonly int[] SourceIP = new int[PacketFields.AmountOfIPParts];       //4 parts for source ip
         private readonly uint SourcePort;                   //2 bytes for the source port number
 
         public TCPandUDPFrame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,

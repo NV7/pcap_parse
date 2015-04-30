@@ -2,8 +2,8 @@
 {
     public class EthernetFrame
     {
-        private readonly int[] DestinationIP = new int[6];
-        private readonly int[] SourceIP = new int[6];
+        private readonly int[] DestinationIP = new int[PacketFields.AmountOfEthernetParts];
+        private readonly int[] SourceIP = new int[PacketFields.AmountOfEthernetParts];
 
         public EthernetFrame(int[] _DestinationIP, int[] _SourceIP)
         {
