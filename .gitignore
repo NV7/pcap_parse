@@ -157,3 +157,4 @@ $RECYCLE.BIN/
 *.csproj
 AssemblyInfo.cs
 *.DotSettings
+*.suo
