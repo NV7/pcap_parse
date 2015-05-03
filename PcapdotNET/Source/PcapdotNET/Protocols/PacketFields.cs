@@ -7,7 +7,7 @@
         public readonly static int PcapHeaderLength = 24;
 
         // Amount of parts in IP-Adress
-        public readonly static int AmountOfIPParts = 4;
+        public readonly static int AmountOfIpParts = 4;
 
         // Amount of parts in Ethernet Adress 
         public readonly static int AmountOfEthernetParts = 6;
@@ -19,7 +19,7 @@
         public readonly static int BytesBetweenHeaderOfFrameAndEthernetAdress = 4;
 
         // Amount of bytes, that we miss before gathering information about protocol number
-        public static readonly int AmountOfBytesBeforeProtocolID = 11;
+        public static readonly int AmountOfBytesBeforeProtocolId = 11;
 
         // Amount of bytes, that form destination and source ports.
         // We need this because of ReadUInt16  reads bytes in little-endian, and we need in big.

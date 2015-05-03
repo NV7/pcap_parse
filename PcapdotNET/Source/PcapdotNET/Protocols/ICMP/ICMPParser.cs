@@ -41,7 +41,7 @@ namespace PcapdotNET.Protocols.ICMP
                         reader.ReadBytes(PacketFields.AmountOfEthernetParts);
 
                         // Missed
-                        reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolID);
+                        reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId);
 
                         // Read Protocol Identificator
                         uint protocolNumber = reader.ReadByte();
@@ -99,9 +99,9 @@ namespace PcapdotNET.Protocols.ICMP
         //Read Source Ip
         public int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
-            var sourceIp = new int[PacketFields.AmountOfIPParts];
+            var sourceIp = new int[PacketFields.AmountOfIpParts];
 
-            for (int i = 0; i < PacketFields.AmountOfIPParts; ++i)
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
                 sourceIp[i] = reader.ReadByte();
 
             return sourceIp;
@@ -109,9 +109,9 @@ namespace PcapdotNET.Protocols.ICMP
 
         private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
-            var DestinationIP = new int[PacketFields.AmountOfIPParts];
+            var DestinationIP = new int[PacketFields.AmountOfIpParts];
 
-            for (int i = 0; i < PacketFields.AmountOfIPParts; ++i)
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
                 DestinationIP[i] = reader.ReadByte();
 
             return DestinationIP;

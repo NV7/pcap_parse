@@ -1,6 +1,4 @@
-﻿using System;
-using NUnit.Framework;
-using PcapdotNET.Protocols;
+﻿using NUnit.Framework;
 using PcapdotNET.Protocols.Ethernet;
 using PcapdotNET.Protocols.ICMP;
 using PcapdotNET.Protocols.TCP;
@@ -18,7 +16,7 @@ namespace Tests
             var Eth = new EthernetParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
             var Frame = (EthernetFrame) Eth.GetEthernetFrameList()[0];
 
-            Assert.That(Frame.GetDestinationIP(), Is.EqualTo("34.4B.50.B7.EF.8"));
+            Assert.That(Frame.GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
             Assert.That(Frame.GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
         }
 
@@ -35,7 +33,7 @@ namespace Tests
         public void TCPProtocolTest()
         {
             var TCP = new TCPParser(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
-            foreach (TCPFrame frame in TCP.GetTCPFrameList())
+            foreach (TcpFrame frame in TCP.GetTCPFrameList())
             {
                 Assert.That(frame.GetProtocolName(), Is.EqualTo("TCP"));
             }
@@ -45,16 +43,16 @@ namespace Tests
         public void TestGetDestinationIP()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[0];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
 
-            Assert.That(Frame.GetDestinationIP(), Is.EqualTo("10.0.0.1"));
+            Assert.That(Frame.GetDestinationIp(), Is.EqualTo("10.0.0.1"));
         }
 
         [Test]
         public void TestGetDestinationPort()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[0];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
 
             Assert.That(Frame.GetDestinationPort(), Is.EqualTo("80"));
         }
@@ -63,7 +61,7 @@ namespace Tests
         public void TestGetFrameLength()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[0];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
 
             Assert.That(Frame.GetFrameLength(), Is.EqualTo("54"));
         }
@@ -72,7 +70,7 @@ namespace Tests
         public void TestGetProtocolNumberMethod()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[0];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
 
             Assert.That(Frame.GetProtocolNumber(), Is.EqualTo("6"));
         }
@@ -81,16 +79,16 @@ namespace Tests
         public void TestGetSourceIP()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[0];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
 
-            Assert.That(Frame.GetSourceIP(), Is.EqualTo("192.168.0.143"));
+            Assert.That(Frame.GetSourceIp(), Is.EqualTo("192.168.0.143"));
         }
 
         [Test]
         public void TestGetSourcePort()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[0];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
 
             Assert.That(Frame.GetSourcePort(), Is.EqualTo("3655"));
         }
@@ -99,7 +97,7 @@ namespace Tests
         public void UDPProtocolTest()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UDPFrame)(UDP.GetUDPFrameList())[1];
+            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[1];
 
             Assert.That(Frame.GetProtocolName(), Is.EqualTo("UDP"));
         }

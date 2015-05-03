@@ -7,13 +7,13 @@ namespace PcapdotNET.Protocols.Ethernet
     public class EthernetParser
     {
         // Put here all info, collected from file
-        private readonly ArrayList EthernetFrameArray = new ArrayList();
+        private readonly ArrayList _ethernetFrameArray = new ArrayList();
         
-        public EthernetParser(string _FileName)
+        public EthernetParser(string fileName)
         {
-            if (File.Exists(_FileName))
+            if (File.Exists(fileName))
             {
-                var reader = new BinaryReader(File.Open(_FileName, FileMode.Open));
+                var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
 
                 try
                 {
@@ -40,7 +40,7 @@ namespace PcapdotNET.Protocols.Ethernet
                         var ethernetFrame = new EthernetFrame(ethernetDestinationIp, ethernetSourceIp);
 
                         // Pull current Ethernet frame to dump
-                        EthernetFrameArray.Add(ethernetFrame);
+                        _ethernetFrameArray.Add(ethernetFrame);
 
                         // Miss ending of pcap-file, witch depends on FrameLength
                         reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
@@ -61,7 +61,7 @@ namespace PcapdotNET.Protocols.Ethernet
         internal void MissedBytes(ref System.IO.BinaryReader reader)
         {
             // Missed
-            reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolID);
+            reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId);
 
             // Read Protocol Identificator
             reader.ReadByte();
@@ -70,7 +70,7 @@ namespace PcapdotNET.Protocols.Ethernet
             reader.ReadByte();
             reader.ReadByte();
 
-            reader.ReadBytes(PacketFields.AmountOfIPParts * 2);
+            reader.ReadBytes(PacketFields.AmountOfIpParts * 2);
 
 
             // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
@@ -80,11 +80,11 @@ namespace PcapdotNET.Protocols.Ethernet
         }
         private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
-            var EthernetSourceIP = new int[PacketFields.AmountOfEthernetParts];
+            var ethernetSourceIp = new int[PacketFields.AmountOfEthernetParts];
             for (int i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
-                EthernetSourceIP[i] = reader.ReadByte();
+                ethernetSourceIp[i] = reader.ReadByte();
 
-            return EthernetSourceIP;
+            return ethernetSourceIp;
         }
         private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
@@ -97,7 +97,7 @@ namespace PcapdotNET.Protocols.Ethernet
         
         public ArrayList GetEthernetFrameList()
         {
-            return EthernetFrameArray;
+            return _ethernetFrameArray;
         }
     }
 }

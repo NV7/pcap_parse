@@ -36,7 +36,7 @@ namespace PcapdotNET.Protocols.TCP
                         reader.ReadBytes(PacketFields.AmountOfEthernetParts);
 
                         // Missed
-                        reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolID);
+                        reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId);
 
                         // Read Protocol Identificator
                         uint protocolNumber = reader.ReadByte();
@@ -64,7 +64,7 @@ namespace PcapdotNET.Protocols.TCP
                         uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
 
                         // Fill current TCPandUDPFrame
-                        var T = new TCPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
+                        var T = new TcpFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
@@ -94,9 +94,9 @@ namespace PcapdotNET.Protocols.TCP
         //Read Source Ip
         private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
-            var SourceIP = new int[PacketFields.AmountOfIPParts];
+            var SourceIP = new int[PacketFields.AmountOfIpParts];
 
-            for (int i = 0; i < PacketFields.AmountOfIPParts; ++i)
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
                 SourceIP[i] = reader.ReadByte();
 
             return SourceIP;
@@ -104,9 +104,9 @@ namespace PcapdotNET.Protocols.TCP
 
         private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
-            var DestinationIP = new int[PacketFields.AmountOfIPParts];
+            var DestinationIP = new int[PacketFields.AmountOfIpParts];
 
-            for (int i = 0; i < PacketFields.AmountOfIPParts; ++i)
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
                 DestinationIP[i] = reader.ReadByte();
 
             return DestinationIP;

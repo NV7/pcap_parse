@@ -6,32 +6,31 @@ using System.Threading.Tasks;
 
 namespace PcapdotNET.Protocols.UDP
 {
-    public class UDPFrame
+    public class UdpFrame
     {
-        private readonly int[] DestinationIP = new int[PacketFields.AmountOfIPParts];  //4 parts of IP address
-        private readonly uint DestinationPort;              //2 bytes for the destination port number
-        private readonly uint FrameLength;                  //4 bytes for frame length
-        private readonly uint ProtocolNumber;               //2 bytes for the source port number
-        private readonly int[] SourceIP = new int[PacketFields.AmountOfIPParts];       //4 parts for source ip
-        private readonly uint SourcePort;                   //2 bytes for the source port number
+        private readonly int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
+        private readonly uint _destinationPort;              //2 bytes for the destination port number
+        private readonly uint _frameLength;                  //4 bytes for frame length
+        private readonly uint _protocolNumber;               //2 bytes for the source port number
+        private readonly int[] _sourceIp = new int[PacketFields.AmountOfIpParts];       //4 parts for source ip
+        private readonly uint _sourcePort;                   //2 bytes for the source port number
 
-        public UDPFrame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,
-            uint _SourcePort,
-            uint _ProtocolNumber)
+        public UdpFrame(int[] destinationIp, uint destinationPort, uint frameLength, int[] sourceIp,
+            uint sourcePort, uint protocolNumber)
         {
-            DestinationIP = _DestinationIP;
-            DestinationPort = _DestinationPort;
-            FrameLength = _FrameLength;
-            SourceIP = _SourceIP;
-            SourcePort = _SourcePort;
-            ProtocolNumber = _ProtocolNumber;
+            _destinationIp = destinationIp;
+            _destinationPort = destinationPort;
+            _frameLength = frameLength;
+            _sourceIp = sourceIp;
+            _sourcePort = sourcePort;
+            _protocolNumber = protocolNumber;
         }
 
         public string GetInformation()
         {
-            return "\n###########\n" + SourceIP[0] + "." + SourceIP[1] + "." + SourceIP[2] + "." + SourceIP[3] + ":" + SourcePort + " -> " +
-                   DestinationIP[0] + "." + DestinationIP[1] + "." + DestinationIP[2] + "." + DestinationIP[3] + ":" +
-                   DestinationPort + "\n" + "FrameLength : " + FrameLength + "\n" + "Protocol: " + GetProtocolName();
+            return "\n###########\n" + _sourceIp[0] + "." + _sourceIp[1] + "." + _sourceIp[2] + "." + _sourceIp[3] + ":" + _sourcePort + " -> " +
+                   _destinationIp[0] + "." + _destinationIp[1] + "." + _destinationIp[2] + "." + _destinationIp[3] + ":" +
+                   _destinationPort + "\n" + "FrameLength : " + _frameLength + "\n" + "Protocol: " + GetProtocolName();
         }
 
 
@@ -42,34 +41,34 @@ namespace PcapdotNET.Protocols.UDP
 
         public string GetProtocolNumber()
         {
-            return ProtocolNumber.ToString();
+            return _protocolNumber.ToString();
         }
 
         public string GetFrameLength()
         {
-            return FrameLength.ToString();
+            return _frameLength.ToString();
         }
 
-        public string GetDestinationIP()
+        public string GetDestinationIp()
         {
-            string result = DestinationIP[0] + "." + DestinationIP[1] + "." + DestinationIP[2] + "." + DestinationIP[3];
+            string result = _destinationIp[0] + "." + _destinationIp[1] + "." + _destinationIp[2] + "." + _destinationIp[3];
             return result;
         }
 
-        public string GetSourceIP()
+        public string GetSourceIp()
         {
-            string result = SourceIP[0] + "." + SourceIP[1] + "." + SourceIP[2] + "." + SourceIP[3];
+            string result = _sourceIp[0] + "." + _sourceIp[1] + "." + _sourceIp[2] + "." + _sourceIp[3];
             return result;
         }
 
         public string GetSourcePort()
         {
-            return SourcePort.ToString();
+            return _sourcePort.ToString();
         }
 
         public string GetDestinationPort()
         {
-            return DestinationPort.ToString();
+            return _destinationPort.ToString();
         }
     }
 }

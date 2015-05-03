@@ -47,8 +47,6 @@
     <Compile Include="Protocols\ICMP\ICMPParser.cs" />
     <Compile Include="Protocols\PacketFields.cs" />
     <Compile Include="Protocols\TableProtocols.cs" />
-    <Compile Include="Protocols\TCPandUDPFrame.cs" />
-    <Compile Include="Protocols\FileParser.cs" />
     <Compile Include="Protocols\TCP\TCPFrame.cs" />
     <Compile Include="Protocols\TCP\TCPParser.cs" />
     <Compile Include="Protocols\UDP\UDPFrame.cs" />
