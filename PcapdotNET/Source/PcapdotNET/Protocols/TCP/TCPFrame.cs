@@ -37,17 +37,7 @@ namespace PcapdotNET.Protocols.TCP
 
         public string GetProtocolName()
         {
-            switch (ProtocolNumber)
-            {
-                case 1:
-                    return "ICMP";
-                case 6:
-                    return "TCP";
-                case 17:
-                    return "UDP";
-                default:
-                    return "Not stated";
-            }
+            return "TCP";
         }
 
         public string GetProtocolNumber()
