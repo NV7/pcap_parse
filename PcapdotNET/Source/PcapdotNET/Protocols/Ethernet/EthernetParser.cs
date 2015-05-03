@@ -4,7 +4,7 @@ using System.IO;
 
 namespace PcapdotNET.Protocols.Ethernet
 {
-    class EthernetParser
+    public class EthernetParser
     {
         // Put here all info, collected from file
         private readonly ArrayList EthernetFrameArray = new ArrayList();
@@ -26,9 +26,6 @@ namespace PcapdotNET.Protocols.Ethernet
                         reader.ReadBytes(PacketFields.FrameHeaderLength);
 
                         uint frameLength = reader.ReadUInt32();
-
-                        // Read amount of bytes in this frame
-                        reader.ReadUInt32();
 
                         reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress);
 

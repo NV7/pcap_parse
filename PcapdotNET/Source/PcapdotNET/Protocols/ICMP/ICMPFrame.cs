@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PcapdotNET.Protocols.ICMP
 {
-    class ICMPFame
+    public class ICMPFrame
     {
           private readonly int[] DestinationIP = new int[PacketFields.AmountOfIPParts];  //4 parts of IP address
         private readonly uint DestinationPort;              //2 bytes for the destination port number
@@ -15,7 +15,7 @@ namespace PcapdotNET.Protocols.ICMP
         private readonly int[] SourceIP = new int[PacketFields.AmountOfIPParts];       //4 parts for source ip
         private readonly uint SourcePort;                   //2 bytes for the source port number
 
-        public ICMPFame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,
+        public ICMPFrame(int[] _DestinationIP, uint _DestinationPort, uint _FrameLength, int[] _SourceIP,
             uint _SourcePort,
             uint _ProtocolNumber)
         {

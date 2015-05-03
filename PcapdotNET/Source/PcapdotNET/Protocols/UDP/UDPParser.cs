@@ -5,7 +5,7 @@ using PcapdotNET.Protocols.TCP;
 
 namespace PcapdotNET.Protocols.UDP
 {
-    class UDPParser
+    public class UDPParser
     {
           // Put here all info, collected from file
         //private readonly ArrayList EthernetFrameArray = new ArrayList();
@@ -65,7 +65,7 @@ namespace PcapdotNET.Protocols.UDP
                         uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
 
                         // Fill current TCPandUDPFrame
-                        var T = new TCPandUDPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
+                        var T = new UDPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
@@ -114,7 +114,7 @@ namespace PcapdotNET.Protocols.UDP
         }
 
         // Get this dump of processed frames
-        public ArrayList GetTCPFrameList()
+        public ArrayList GetUDPFrameList()
         {
             return _tcpFrameArray;
         }

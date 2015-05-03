@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PcapdotNET.Protocols.UDP
 {
-    class UDPFrame
+    public class UDPFrame
     {
         private readonly int[] DestinationIP = new int[PacketFields.AmountOfIPParts];  //4 parts of IP address
         private readonly uint DestinationPort;              //2 bytes for the destination port number

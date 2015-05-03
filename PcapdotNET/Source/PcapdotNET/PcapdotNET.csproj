@@ -43,7 +43,7 @@
     <Compile Include="Protocols\Ethernet\EthernetFrame.cs" />
     <Compile Include="Protocols\Ethernet\EthernetParser.cs" />
     <Compile Include="Protocols\Exeption.cs" />
-    <Compile Include="Protocols\ICMP\ICMPFame.cs" />
+    <Compile Include="Protocols\ICMP\ICMPFrame.cs" />
     <Compile Include="Protocols\ICMP\ICMPParser.cs" />
     <Compile Include="Protocols\PacketFields.cs" />
     <Compile Include="Protocols\TableProtocols.cs" />

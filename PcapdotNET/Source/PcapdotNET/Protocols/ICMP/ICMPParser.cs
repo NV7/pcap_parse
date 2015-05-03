@@ -9,7 +9,7 @@ using PcapdotNET.Protocols.TCP;
 
 namespace PcapdotNET.Protocols.ICMP
 {
-    class IcmpParser
+    public class IcmpParser
     {
          // Put here all info, collected from file
         //private readonly ArrayList EthernetFrameArray = new ArrayList();
@@ -69,7 +69,7 @@ namespace PcapdotNET.Protocols.ICMP
                         uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
 
                         // Fill current TCPandUDPFrame
-                        var T = new ICMPFame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
+                        var T = new ICMPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump

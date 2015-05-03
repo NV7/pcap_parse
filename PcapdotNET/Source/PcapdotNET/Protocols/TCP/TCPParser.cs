@@ -4,9 +4,9 @@ using System.IO;
 
 namespace PcapdotNET.Protocols.TCP
 {
-    class TCPParser
+    public class TCPParser
     {
-         // Put here all info, collected from file
+        // Put here all info, collected from file
         //private readonly ArrayList EthernetFrameArray = new ArrayList();
         private readonly ArrayList _tcpFrameArray = new ArrayList();
         
@@ -64,7 +64,7 @@ namespace PcapdotNET.Protocols.TCP
                         uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
 
                         // Fill current TCPandUDPFrame
-                        var T = new TCPandUDPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
+                        var T = new TCPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
