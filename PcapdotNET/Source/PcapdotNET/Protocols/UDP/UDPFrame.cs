@@ -36,7 +36,8 @@ namespace PcapdotNET.Protocols.UDP
 
         public string GetProtocolName()
         {
-            return "UDP";
+            return TableProtocols.GetProtocol(_protocolNumber);
+            //return "UDP";
         }
 
         public string GetProtocolNumber()

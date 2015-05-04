@@ -8,7 +8,7 @@ namespace PcapdotNET.Protocols.ICMP
 {
     public class ICMPFrame
     {
-          private readonly int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
+         private readonly int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
         private readonly uint _destinationPort;              //2 bytes for the destination port number
         private readonly uint _frameLength;                  //4 bytes for frame length
         private readonly uint _protocolNumber;               //2 bytes for the source port number
@@ -37,7 +37,8 @@ namespace PcapdotNET.Protocols.ICMP
 
         public string GetProtocolName()
         {
-            return "ICMP";
+            return TableProtocols.GetProtocol(_protocolNumber);
+            //return "ICMP";
         }
 
         public string GetProtocolNumber()

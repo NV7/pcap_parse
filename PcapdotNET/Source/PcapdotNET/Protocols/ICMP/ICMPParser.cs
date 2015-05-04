@@ -9,13 +9,13 @@ using PcapdotNET.Protocols.TCP;
 
 namespace PcapdotNET.Protocols.ICMP
 {
-    public class IcmpParser
+    public class ICMPParser
     {
          // Put here all info, collected from file
         //private readonly ArrayList EthernetFrameArray = new ArrayList();
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
-        public IcmpParser(string fileName)
+        public ICMPParser(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -118,7 +118,7 @@ namespace PcapdotNET.Protocols.ICMP
         }
 
         // Get this dump of processed frames
-        public ArrayList GetTCPFrameList()
+        public ArrayList GetICMPFrameList()
         {
             return _tcpFrameArray;
         }

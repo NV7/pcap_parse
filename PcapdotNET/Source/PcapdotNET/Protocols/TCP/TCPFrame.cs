@@ -37,7 +37,8 @@ namespace PcapdotNET.Protocols.TCP
 
         public string GetProtocolName()
         {
-            return "TCP";
+            return TableProtocols.GetProtocol(_protocolNumber);
+            //return "TCP";
         }
 
         public string GetProtocolNumber()

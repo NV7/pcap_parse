@@ -23,8 +23,8 @@ namespace Tests
         [Test]
         public void ICMPProtocolTest()
         {
-            var ICMP = new IcmpParser(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.cap");
-            var Frame = (ICMPFrame)(ICMP.GetTCPFrameList())[0];
+            var ICMP = new ICMPParser(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.cap");
+            var Frame = (ICMPFrame)(ICMP.GetICMPFrameList())[0];
 
             Assert.That(Frame.GetProtocolName(), Is.EqualTo("ICMP"));
         }
@@ -97,7 +97,7 @@ namespace Tests
         public void UDPProtocolTest()
         {
             var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[1];
+            var Frame = (UdpFrame) (UDP.GetUDPFrameList())[1];
 
             Assert.That(Frame.GetProtocolName(), Is.EqualTo("UDP"));
         }
