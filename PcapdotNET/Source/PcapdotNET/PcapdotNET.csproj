@@ -35,10 +35,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LightInject">
+      <HintPath>..\packages\LightInject.3.0.2.6\lib\net45\LightInject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IOc\ApplicationController.cs" />
+    <Compile Include="IOc\BasePresenter.cs" />
+    <Compile Include="IOc\IApplicationController.cs" />
+    <Compile Include="IOc\IContainer.cs" />
+    <Compile Include="IOc\IPresenter.cs" />
+    <Compile Include="IOc\IView.cs" />
+    <Compile Include="IOc\LifeTime.cs" />
+    <Compile Include="IOc\LightInjectAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\Ethernet\EthernetFrame.cs" />
     <Compile Include="Protocols\Ethernet\EthernetParser.cs" />
