@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using PcapdotNET.Protocols.TCP;
 
 namespace PcapdotNET.Protocols.UDP
 {
-    public class UDPParser
+    /// <summary>UDP Parser
+    /// Class UDP Parser
+    /// </summary>
+    public class UDPParser : IUDPParser
     {
           // Put here all info, collected from file
         //private readonly ArrayList EthernetFrameArray = new ArrayList();
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
+        /// <summary>Constructor
+        /// Constructor Udp Parser which read information from .pcap file
+        /// </summary>
+        /// <param name="fileName"></param>
         public UDPParser(string fileName)
         {
             if (File.Exists(fileName))
@@ -92,7 +98,11 @@ namespace PcapdotNET.Protocols.UDP
              }
         }
 
-        //Read Source Ip
+        /// <summary>Read Source Ip
+        /// Read information about source Ip
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
             var SourceIP = new int[PacketFields.AmountOfIpParts];
@@ -103,6 +113,11 @@ namespace PcapdotNET.Protocols.UDP
             return SourceIP;
         }
 
+        /// <summary>Destination Ip
+        /// Read information about destination Ip
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
             var DestinationIP = new int[PacketFields.AmountOfIpParts];
@@ -112,11 +127,19 @@ namespace PcapdotNET.Protocols.UDP
 
             return DestinationIP;
         }
-
-        // Get this dump of processed frames
+        
+        /// <summary>Retur Array List 
+        ///  Get this dump of processed frames
+        /// </summary>
+        /// <returns></returns>
         public ArrayList GetUDPFrameList()
         {
             return _tcpFrameArray;
+        }
+
+        public void IUDPParser(string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

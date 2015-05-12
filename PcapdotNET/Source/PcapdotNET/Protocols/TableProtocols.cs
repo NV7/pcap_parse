@@ -2,6 +2,9 @@
 {
     public class TableProtocols
     {
+        /// <summary>Name Protocols
+        /// Class consist All name protocols
+        /// </summary>
         private static readonly string[] _tableProtocols =
         {
             "HOPOPT",  //IPv6 Hop-by-Hop Option
@@ -140,6 +143,11 @@
             "FC"        //Fibre Channel
         };
 
+        /// <summary>Return name of protocol
+        /// Return name of protocol on index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static string GetProtocol(uint index)
         {
            return _tableProtocols[index];

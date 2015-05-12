@@ -1,6 +1,4 @@
-﻿using Presenter.Common;
-
-namespace WorkersManagement.IoC
+﻿namespace PcapdotNET.IOc
 {
     public interface IApplicationController
     {

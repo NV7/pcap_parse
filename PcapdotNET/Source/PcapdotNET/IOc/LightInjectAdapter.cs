@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using LightInject;
 
-namespace Presenter.Common
+namespace PcapdotNET.IOc
 {
     public class LightInjectAdapder : IContainer
     {
@@ -15,7 +15,7 @@ namespace Presenter.Common
             if(lifeTime == LifeTime.PerRequest)
                 _container.Register<TService, TImplementation>(new PerRequestLifeTime());
             if (lifeTime == LifeTime.PerScope)
-                _container.Register<TService, TImplementation>(new PerScopeLifetime());
+                _container.Register<TService, TImplementation>(new PerScopeLifetime()); 
         }
 
         public void Register<TService>(LifeTime lifeTime = LifeTime.PerContainer)

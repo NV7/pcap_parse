@@ -4,11 +4,18 @@ using System.IO;
 
 namespace PcapdotNET.Protocols.Ethernet
 {
-    public class EthernetParser
+    /// <summary>Parser Ethernet protocol
+    /// This class read from .pcap file information about Ethernet protocol.
+    /// </summary>
+    public class EthernetParser : IEthernetParser
     {
         // Put here all info, collected from file
         private readonly ArrayList _ethernetFrameArray = new ArrayList();
-        
+
+        /// <summary>Constructor
+        /// This method get parameter : file name and path to him ,and them read helpful information.
+        /// </summary>
+        /// <param name="fileName"></param>
         public EthernetParser(string fileName)
         {
             if (File.Exists(fileName))
@@ -35,14 +42,14 @@ namespace PcapdotNET.Protocols.Ethernet
                         var ethernetSourceIp = ReadSourceIp(ref reader);
 
                         MissedBytes(ref reader);
-                        
+
 
                         var ethernetFrame = new EthernetFrame(ethernetDestinationIp, ethernetSourceIp);
 
                         // Pull current Ethernet frame to dump
                         _ethernetFrameArray.Add(ethernetFrame);
 
-                        // Miss ending of pcap-file, witch depends on FrameLength
+                        // Miss ending of .pcap file, witch depends on FrameLength
                         reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
                     }
                 }
@@ -55,9 +62,15 @@ namespace PcapdotNET.Protocols.Ethernet
 
                 reader.Close();
             }
+
+                //Throw an exception if file not found
             else throw new FileNotFoundException();
         }
 
+        /// <summary>Pass some bytes
+        /// Missed some bytes
+        /// </summary>
+        /// <param name="reader"></param>
         internal void MissedBytes(ref System.IO.BinaryReader reader)
         {
             // Missed
@@ -70,7 +83,7 @@ namespace PcapdotNET.Protocols.Ethernet
             reader.ReadByte();
             reader.ReadByte();
 
-            reader.ReadBytes(PacketFields.AmountOfIpParts * 2);
+            reader.ReadBytes(PacketFields.AmountOfIpParts*2);
 
 
             // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
@@ -78,26 +91,47 @@ namespace PcapdotNET.Protocols.Ethernet
 
             reader.ReadBytes(PacketFields.AmountOfBytesInPortNumber);
         }
+
+        /// <summary>Source Ip
+        ///Read Source Ip from .pcap file 
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
             var ethernetSourceIp = new int[PacketFields.AmountOfEthernetParts];
-            for (int i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
+            for (var i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
                 ethernetSourceIp[i] = reader.ReadByte();
 
             return ethernetSourceIp;
         }
+
+        /// <summary>Destination Ip
+        /// Read Destination Ip from .pcap file
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
             var ethernetDestinationIp = new int[PacketFields.AmountOfEthernetParts];
-            for (int i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
+            for (var i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
                 ethernetDestinationIp[i] = reader.ReadByte();
 
             return ethernetDestinationIp;
         }
-        
+
+        /// <summary>Get Array list
+        /// Get Array list there [0] - Destination Ip; [1] - Source Ip; [2] - Ethernet Frame;
+        /// </summary>
+        /// <returns></returns>
         public ArrayList GetEthernetFrameList()
         {
             return _ethernetFrameArray;
+        }
+
+        public void iEthernetParser(string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

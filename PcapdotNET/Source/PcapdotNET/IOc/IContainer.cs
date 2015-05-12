@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using LightInject;
 
-namespace Presenter.Common
+namespace PcapdotNET.IOc
 {
     public interface IContainer
     {

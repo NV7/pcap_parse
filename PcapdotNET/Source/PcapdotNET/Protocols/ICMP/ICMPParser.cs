@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PcapdotNET.Protocols.TCP;
 
 namespace PcapdotNET.Protocols.ICMP
 {
-    public class ICMPParser
+    /// <summary> Class ICMP Parser
+    /// Class which read and get helpful information from .pcap file.
+    /// </summary>
+    public class ICMPParser : iICMPParser
     {
-         // Put here all info, collected from file
-        //private readonly ArrayList EthernetFrameArray = new ArrayList();
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
+        /// <summary>Constructor
+        /// Constructor which get file name and path to him, them read .pcap file.
+        /// </summary>
+        /// <param name="fileName"></param>
         public ICMPParser(string fileName)
         {
             if (File.Exists(fileName))
             {
                 var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
 
+                //If open file
                 try
                 {
                     // Missed header of file
@@ -80,7 +81,7 @@ namespace PcapdotNET.Protocols.ICMP
                     }
                 }
 
-                    // TODO fix this bug with reading after file ending
+                // TODO fix this bug with reading after file ending
                 catch (Exception)
                 {
                     var someExeption = new Exeption();
@@ -89,6 +90,8 @@ namespace PcapdotNET.Protocols.ICMP
 
                 reader.Close();
             }
+
+            //If file not found throw exeption
             else
             {
                 var someExeption = new Exeption();
@@ -96,7 +99,11 @@ namespace PcapdotNET.Protocols.ICMP
              }
         }
 
-        //Read Source Ip
+        /// <summary> Read Source Ip
+        /// Read source Ip.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         public int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];
@@ -107,6 +114,11 @@ namespace PcapdotNET.Protocols.ICMP
             return sourceIp;
         }
 
+        /// <summary> Read Destination Ip
+        /// Read Destination Ip.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
             var DestinationIP = new int[PacketFields.AmountOfIpParts];
@@ -117,10 +129,18 @@ namespace PcapdotNET.Protocols.ICMP
             return DestinationIP;
         }
 
-        // Get this dump of processed frames
+        /// <summary>Return Array List
+        /// Return array list where [0] - destination IP; [1] - source ip; [2] - ICMP frame;
+        /// </summary>
+        /// <returns></returns>
         public ArrayList GetICMPFrameList()
         {
             return _tcpFrameArray;
+        }
+
+        public void iICMPParser(string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

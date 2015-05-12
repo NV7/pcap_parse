@@ -1,6 +1,8 @@
 ﻿namespace PcapdotNET.Protocols
 {
-    // Here we describe all constants, that we use in parsing pcap file
+    /// <summary>Class consist from information about const in our project
+    /// Here we describe all constants, that we use in parsing pcap file
+    /// </summary>
     public struct PacketFields
     {
         // Pcap file header length

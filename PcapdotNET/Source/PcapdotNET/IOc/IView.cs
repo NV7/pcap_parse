@@ -1,4 +1,4 @@
-﻿namespace Presenter.Common
+﻿namespace PcapdotNET.IOc
 {
     public interface IView
     {

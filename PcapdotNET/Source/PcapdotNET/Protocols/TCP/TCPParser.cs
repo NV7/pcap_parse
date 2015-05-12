@@ -4,7 +4,7 @@ using System.IO;
 
 namespace PcapdotNET.Protocols.TCP
 {
-    public class TCPParser
+    public class TCPParser : ITCPParser
     {
         // Put here all info, collected from file
         //private readonly ArrayList EthernetFrameArray = new ArrayList();
@@ -116,6 +116,11 @@ namespace PcapdotNET.Protocols.TCP
         public ArrayList GetTCPFrameList()
         {
             return _tcpFrameArray;
+        }
+
+        public void ITCPParser(string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

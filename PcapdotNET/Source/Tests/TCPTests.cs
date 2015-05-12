@@ -14,8 +14,8 @@ namespace Tests
         {
             // All, that we could get from ethernet - source and dest ips
             var Eth = new EthernetParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (EthernetFrame) Eth.GetEthernetFrameList()[0];
-
+            EthernetFrame Frame = (EthernetFrame)Eth.GetEthernetFrameList()[0];
+            
             Assert.That(Frame.GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
             Assert.That(Frame.GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
         }
