@@ -6,100 +6,66 @@ using PcapdotNET.Protocols.UDP;
 
 namespace Tests
 {
+    
     [TestFixture]
     public class TestFrameParse
     {
+        
         [Test]
         public void EthernetProtocolTest()
         {
-            // All, that we could get from ethernet - source and dest ips
-            var Eth = new EthernetParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            EthernetFrame Frame = (EthernetFrame)Eth.GetEthernetFrameList()[0];
+            var container = new LightInject.ServiceContainer();
+            container.Register<IEthernetParser, EthernetParser>();
             
-            Assert.That(Frame.GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
-            Assert.That(Frame.GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
+            var frame = container.Create<EthernetParser>();
+
+            frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
+
+            Assert.That(frame.GetEthernetFrameList().GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
+            Assert.That(frame.GetEthernetFrameList().GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
         }
 
         [Test]
-        public void ICMPProtocolTest()
+        public void IcmpProtocolTest()
         {
-            var ICMP = new ICMPParser(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.cap");
-            var Frame = (ICMPFrame)(ICMP.GetICMPFrameList())[0];
+            var container = new LightInject.ServiceContainer();
+            container.Register<iICMPParser, ICMPParser>();
+            
+            var frame = container.Create<ICMPParser>();
+            frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.cap");
 
-            Assert.That(Frame.GetProtocolName(), Is.EqualTo("ICMP"));
+            Assert.That(frame.GetIcmpFrame().GetProtocolName(), Is.EqualTo("ICMP"));
         }
 
         [Test]
-        public void TCPProtocolTest()
+        public void TcpProtocolTest()
         {
-            var TCP = new TCPParser(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
-            foreach (TcpFrame frame in TCP.GetTCPFrameList())
-            {
-                Assert.That(frame.GetProtocolName(), Is.EqualTo("TCP"));
-            }
+            var container = new LightInject.ServiceContainer();
+            container.Register<ITCPParser,TCPParser>();
+
+            var frame = container.Create<TCPParser>();
+
+            frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
+            
+            Assert.That(frame.GetTCPFrame().GetProtocolName(), Is.EqualTo("TCP"));
         }
 
         [Test]
         public void TestGetDestinationIP()
         {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
+            var container = new LightInject.ServiceContainer();
+            container.Register<IUDPParser,UDPParser>();
 
-            Assert.That(Frame.GetDestinationIp(), Is.EqualTo("10.0.0.1"));
-        }
-
-        [Test]
-        public void TestGetDestinationPort()
-        {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
-
-            Assert.That(Frame.GetDestinationPort(), Is.EqualTo("80"));
-        }
-
-        [Test]
-        public void TestGetFrameLength()
-        {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
-
-            Assert.That(Frame.GetFrameLength(), Is.EqualTo("54"));
-        }
-
-        [Test]
-        public void TestGetProtocolNumberMethod()
-        {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
-
-            Assert.That(Frame.GetProtocolNumber(), Is.EqualTo("6"));
-        }
-
-        [Test]
-        public void TestGetSourceIP()
-        {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
-
-            Assert.That(Frame.GetSourceIp(), Is.EqualTo("192.168.0.143"));
-        }
-
-        [Test]
-        public void TestGetSourcePort()
-        {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame)(UDP.GetUDPFrameList())[0];
-
-            Assert.That(Frame.GetSourcePort(), Is.EqualTo("3655"));
-        }
-
-        [Test]
-        public void UDPProtocolTest()
-        {
-            var UDP = new UDPParser(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-            var Frame = (UdpFrame) (UDP.GetUDPFrameList())[1];
-
-            Assert.That(Frame.GetProtocolName(), Is.EqualTo("UDP"));
+            var frame = container.Create<UDPParser>();
+            frame.FileReader(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
+            
+            Assert.That(frame.GetUDPFrame().GetDestinationIp(), Is.EqualTo("10.0.0.1"));
+            Assert.That(frame.GetUDPFrame().GetDestinationPort(), Is.EqualTo("80"));
+            Assert.That(frame.GetUDPFrame().GetFrameLength(), Is.EqualTo("54"));
+            Assert.That(frame.GetUDPFrame().GetProtocolNumber(), Is.EqualTo("6"));
+            Assert.That(frame.GetUDPFrame().GetSourceIp(), Is.EqualTo("192.168.0.143"));
+            Assert.That(frame.GetUDPFrame().GetSourcePort(), Is.EqualTo("3655"));
+            Assert.That(frame.GetUDPFrame().GetProtocolName(), Is.EqualTo("TCP"));
         }
     }
 }

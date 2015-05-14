@@ -4,13 +4,14 @@ using System.IO;
 
 namespace PcapdotNET.Protocols.TCP
 {
+    /// <summary>class TCP
+    /// This class parse .pcap file and read TCP packets 
+    /// </summary>
     public class TCPParser : ITCPParser
     {
-        // Put here all info, collected from file
-        //private readonly ArrayList EthernetFrameArray = new ArrayList();
         private readonly ArrayList _tcpFrameArray = new ArrayList();
         
-        public TCPParser(string fileName)
+        public void ReadFile(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -64,7 +65,7 @@ namespace PcapdotNET.Protocols.TCP
                         uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
 
                         // Fill current TCPandUDPFrame
-                        var T = new TcpFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
+                        var T = new TCPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
@@ -91,8 +92,12 @@ namespace PcapdotNET.Protocols.TCP
              }
         }
 
-        //Read Source Ip
-        private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
+        /// <summary>Read source Ip
+        /// This method read source Ip from .pcap file
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        internal int[] ReadSourceIp(ref System.IO.BinaryReader reader)
         {
             var SourceIP = new int[PacketFields.AmountOfIpParts];
 
@@ -102,22 +107,33 @@ namespace PcapdotNET.Protocols.TCP
             return SourceIP;
         }
 
-        private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
+        /// <summary>Read source Ip
+        /// This method read destination Ip from .pcap file
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        internal int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
         {
-            var DestinationIP = new int[PacketFields.AmountOfIpParts];
+            var destinationIp = new int[PacketFields.AmountOfIpParts];
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
-                DestinationIP[i] = reader.ReadByte();
+                destinationIp[i] = reader.ReadByte();
 
-            return DestinationIP;
+            return destinationIp;
         }
 
-        // Get this dump of processed frames
-        public ArrayList GetTCPFrameList()
+        /// <summary>Return TCP Frame
+        /// This method return object TCPFarme
+        /// </summary>
+        /// <returns></returns>
+        public TCPFrame GetTCPFrame()
         {
-            return _tcpFrameArray;
+            return (TCPFrame)_tcpFrameArray[0];
         }
 
+        /// <summary>Use in LightInject
+        /// This method refers to IoC Container
+        /// </summary>
         public void ITCPParser(string fileName)
         {
             throw new NotImplementedException();

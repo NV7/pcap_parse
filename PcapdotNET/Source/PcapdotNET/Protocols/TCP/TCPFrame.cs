@@ -3,7 +3,7 @@
     /// <summary>TCP Frame
     /// TCP Frame
     /// </summary>
-    public class TcpFrame
+    public class TCPFrame
     {
         private readonly int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
         private readonly uint _destinationPort;              //2 bytes for the destination port number
@@ -21,7 +21,7 @@
         /// <param name="sourceIp"></param>
         /// <param name="sourcePort"></param>
         /// <param name="protocolNumber"></param>
-        public TcpFrame(int[] destinationIp, uint destinationPort, uint frameLength, int[] sourceIp, uint sourcePort, uint protocolNumber)
+        public TCPFrame(int[] destinationIp, uint destinationPort, uint frameLength, int[] sourceIp, uint sourcePort, uint protocolNumber)
         {
             _destinationIp = destinationIp;
             _destinationPort = destinationPort;

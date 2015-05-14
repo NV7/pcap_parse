@@ -9,15 +9,13 @@ namespace PcapdotNET.Protocols.UDP
     /// </summary>
     public class UDPParser : IUDPParser
     {
-          // Put here all info, collected from file
-        //private readonly ArrayList EthernetFrameArray = new ArrayList();
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
-        /// <summary>Constructor
-        /// Constructor Udp Parser which read information from .pcap file
+        /// <summary>Method wich read .pcap file
+        /// Method Udp Parser which read information from .pcap file
         /// </summary>
         /// <param name="fileName"></param>
-        public UDPParser(string fileName)
+        public void FileReader(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -128,15 +126,18 @@ namespace PcapdotNET.Protocols.UDP
             return DestinationIP;
         }
         
-        /// <summary>Retur Array List 
+        /// <summary>Return UPD Frame 
         ///  Get this dump of processed frames
         /// </summary>
         /// <returns></returns>
-        public ArrayList GetUDPFrameList()
+        public UdpFrame GetUDPFrame()
         {
-            return _tcpFrameArray;
+            return (UdpFrame)_tcpFrameArray[0];
         }
 
+        /// <summary>Use in LightInject
+        /// This method refers to IoC Container
+        /// </summary>
         public void IUDPParser(string fileName)
         {
             throw new NotImplementedException();

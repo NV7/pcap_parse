@@ -11,11 +11,11 @@ namespace PcapdotNET.Protocols.ICMP
     {
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
-        /// <summary>Constructor
-        /// Constructor which get file name and path to him, them read .pcap file.
+        /// <summary>Method which read .pcap file
+        /// Method which get file name and path to him, them read .pcap file.
         /// </summary>
         /// <param name="fileName"></param>
-        public ICMPParser(string fileName)
+        public void ReadFile(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -129,16 +129,19 @@ namespace PcapdotNET.Protocols.ICMP
             return DestinationIP;
         }
 
-        /// <summary>Return Array List
+        /// <summary>Return ICMP Frame
         /// Return array list where [0] - destination IP; [1] - source ip; [2] - ICMP frame;
         /// </summary>
         /// <returns></returns>
-        public ArrayList GetICMPFrameList()
+        public ICMPFrame GetIcmpFrame()
         {
-            return _tcpFrameArray;
+            return (ICMPFrame)_tcpFrameArray[0];
         }
 
-        public void iICMPParser(string fileName)
+        /// <summary>Use in LightInject
+        /// This method refers to IoC Container
+        /// </summary>
+        public void iICMPParser()
         {
             throw new NotImplementedException();
         }

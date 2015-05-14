@@ -11,12 +11,12 @@ namespace PcapdotNET.Protocols.Ethernet
     {
         // Put here all info, collected from file
         private readonly ArrayList _ethernetFrameArray = new ArrayList();
-
-        /// <summary>Constructor
+        
+        /// <summary>Method
         /// This method get parameter : file name and path to him ,and them read helpful information.
         /// </summary>
         /// <param name="fileName"></param>
-        public EthernetParser(string fileName)
+        public void ReadFile(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -120,16 +120,19 @@ namespace PcapdotNET.Protocols.Ethernet
             return ethernetDestinationIp;
         }
 
-        /// <summary>Get Array list
+        /// <summary>Get Ethernet Frame
         /// Get Array list there [0] - Destination Ip; [1] - Source Ip; [2] - Ethernet Frame;
         /// </summary>
         /// <returns></returns>
-        public ArrayList GetEthernetFrameList()
+        public EthernetFrame GetEthernetFrameList()
         {
-            return _ethernetFrameArray;
+            return (EthernetFrame)_ethernetFrameArray[0];
         }
 
-        public void iEthernetParser(string fileName)
+        /// <summary>Use in LightInject
+        /// This method refers to IoC Container
+        /// </summary>
+        public void IEthernetParser()
         {
             throw new NotImplementedException();
         }

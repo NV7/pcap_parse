@@ -48,5 +48,10 @@ namespace PcapdotNET.IOc
         {
             return _container.CanGetInstance(typeof(TService), string.Empty);
         }
+
+        public virtual void Load()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
