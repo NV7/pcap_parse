@@ -5,13 +5,42 @@
     /// </summary>
     public class TCPFrame
     {
-        private readonly int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
-        private readonly uint _destinationPort;              //2 bytes for the destination port number
-        private readonly uint _frameLength;                  //4 bytes for frame length
-        private readonly uint _protocolNumber;               //2 bytes for the source port number
-        private readonly int[] _sourceIp = new int[PacketFields.AmountOfIpParts];       //4 parts for source ip
-        private readonly uint _sourcePort;                   //2 bytes for the source port number
+       private int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
+        private uint _destinationPort;              //2 bytes for the destination port number
+        private uint _frameLength;                  //4 bytes for frame length
+        private uint _protocolNumber;               //2 bytes for the source port number
+        private int[] _sourceIp = new int[PacketFields.AmountOfIpParts];       //4 parts for source ip
+        private uint _sourcePort;                   //2 bytes for the source port number
 
+        /// <summary>Override Equals
+        /// Override method Equals
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        protected bool Equals(TCPFrame other)
+        {
+            return _destinationPort == other._destinationPort && _frameLength == other._frameLength
+                && _protocolNumber == other._protocolNumber && _sourcePort == other._sourcePort;
+        }
+
+        /// <summary>Override GetHashCode
+        /// Override method GetHashCode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (_destinationIp != null ? _destinationIp.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int)_destinationPort;
+                hashCode = (hashCode * 397) ^ (int)_frameLength;
+                hashCode = (hashCode * 397) ^ (int)_protocolNumber;
+                hashCode = (hashCode * 397) ^ (_sourceIp != null ? _sourceIp.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int)_sourcePort;
+                return hashCode;
+            }
+        }
+        
         /// <summary>Constructor
         /// Constructor 
         /// </summary>
@@ -30,6 +59,12 @@
             _sourcePort = sourcePort;
             _protocolNumber = protocolNumber;
         }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public TCPFrame()
+        {}
 
         /// <summary>Return information
         /// Return Information about TCP protocol
@@ -51,6 +86,15 @@
             return TableProtocols.GetProtocol(_protocolNumber);
         }
 
+        /// <summary>Set Protocol Number
+        /// Method which set protocol number
+        /// </summary>
+        /// <param name="protocol"></param>
+        public void SetProtocolNumber(uint protocol)
+        {
+            _protocolNumber = protocol;
+        }
+
         /// <summary>Protocol Number
         /// Return Protocol Number
         /// </summary>
@@ -60,13 +104,32 @@
             return _protocolNumber.ToString();
         }
 
+        /// <summary>Set Frame Lenght
+        /// Method which Set Frame Lenght
+        /// </summary>
+        /// <param name="lenght"></param>
+        public void SetFrameLenght(uint lenght)
+        {
+            _frameLength = lenght;
+        }
+
         /// <summary>Frame Length
         /// Return Frame Length
         /// </summary>
+        /// <param name="i"></param>
         /// <returns></returns>
-        public string GetFrameLength()
+        public string GetFrameLength(int i)
         {
             return _frameLength.ToString();
+        }
+
+        /// <summary>Set destination Ip
+        /// Method which set destination Ip 
+        /// </summary>
+        /// <param name="destinationIp"></param>
+        public void SetDestinationIp(int[] destinationIp)
+        {
+            _destinationIp = destinationIp;
         }
 
         /// <summary>Destination Ip
@@ -79,6 +142,15 @@
             return result;
         }
 
+        /// <summary>Set source Ip
+        /// Method which set source Ip
+        /// </summary>
+        /// <param name="sourceIp"></param>
+        public void SetSourceIp(int[] sourceIp)
+        {
+            _sourceIp = sourceIp;
+        }
+
         /// <summary>Source Ip
         /// Return Source Ip
         /// </summary>
@@ -89,6 +161,15 @@
             return result;
         }
 
+        /// <summary>Set source port
+        /// Method which set source port
+        /// </summary>
+        /// <param name="port"></param>
+        public void SetSourcePort(uint port)
+        {
+            _sourcePort = port;
+        }
+       
         /// <summary>Source Port
         /// Return Source Port
         /// </summary>
@@ -98,6 +179,15 @@
             return _sourcePort.ToString();
         }
 
+        /// <summary>Set source port
+        /// Method which set source port
+        /// </summary>
+        /// <param name="port"></param>
+        public void SetDestinationPort(uint port)
+        {
+            _destinationPort = port;
+        }
+     
         /// <summary>Destination Port
         /// Return Destination Port
         /// </summary>
@@ -106,5 +196,14 @@
         {
             return _destinationPort.ToString();
         }
+
+        public override bool Equals(System.Object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TCPFrame) obj);
+        }
+        
     }
 }

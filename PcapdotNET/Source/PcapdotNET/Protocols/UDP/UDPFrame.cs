@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PcapdotNET.Protocols.UDP
+﻿namespace PcapdotNET.Protocols.UDP
 {
     /// <summary>UDP frame
     /// Class UDP Frame
     /// </summary>
     public class UdpFrame
     {
-        private readonly int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
-        private readonly uint _destinationPort;              //2 bytes for the destination port number
-        private readonly uint _frameLength;                  //4 bytes for frame length
-        private readonly uint _protocolNumber;               //2 bytes for the source port number
-        private readonly int[] _sourceIp = new int[PacketFields.AmountOfIpParts];       //4 parts for source ip
-        private readonly uint _sourcePort;                   //2 bytes for the source port number
-
+        private int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
+        private uint _destinationPort;              //2 bytes for the destination port number
+        private uint _frameLength;                  //4 bytes for frame length
+        private uint _protocolNumber;               //2 bytes for the source port number
+        private int[] _sourceIp = new int[PacketFields.AmountOfIpParts];       //4 parts for source ip
+        private uint _sourcePort;                   //2 bytes for the source port number
+        
         /// <summary>Contructor
         /// Constructor UDP Frame
         /// </summary>
@@ -36,6 +30,12 @@ namespace PcapdotNET.Protocols.UDP
             _sourcePort = sourcePort;
             _protocolNumber = protocolNumber;
         }
+
+        /// <summary>Constructor
+        /// Default constructor
+        /// </summary>
+        public UdpFrame()
+        {}
 
         /// <summary>Return Information
         /// Return information about UDP protocol
@@ -57,6 +57,15 @@ namespace PcapdotNET.Protocols.UDP
             return TableProtocols.GetProtocol(_protocolNumber);
         }
 
+        /// <summary>SetProtocolNumber
+        /// Method which set protocol number
+        /// </summary>
+        /// <param name="number"></param>
+        public void SetProtocolNumber(uint number)
+        {
+            _protocolNumber = number;
+        }
+
         /// <summary>Protocol Number
         /// Return Protocol Number
         /// </summary>
@@ -66,6 +75,15 @@ namespace PcapdotNET.Protocols.UDP
             return _protocolNumber.ToString();
         }
 
+        /// <summary>Set frame lenght
+        /// Method which set frame lenght
+        /// </summary>
+        /// <param name="lenght"></param>
+        public void SetLenght(uint lenght)
+        {
+            _frameLength = lenght;
+        }
+
         /// <summary>Frame length
         /// Return information about packet length
         /// </summary>
@@ -73,6 +91,15 @@ namespace PcapdotNET.Protocols.UDP
         public string GetFrameLength()
         {
             return _frameLength.ToString();
+        }
+
+        /// <summary>Set destination Ip
+        /// Method which set destination Ip
+        /// </summary>
+        /// <param name="destinationIp"></param>
+        public void SetDestinationIp(int[] destinationIp)
+        {
+            _destinationIp = destinationIp;
         }
 
         /// <summary>
@@ -85,6 +112,15 @@ namespace PcapdotNET.Protocols.UDP
             return result;
         }
 
+        /// <summary>Set source Ip
+        /// Method which set source Ip
+        /// </summary>
+        /// <param name="sourceIp"></param>
+        public void SetSourceIp(int[] sourceIp)
+        {
+            _sourceIp = sourceIp;
+        }
+
         /// <summary>Source Ip
         /// Return Information about Source Ip
         /// </summary>
@@ -93,6 +129,15 @@ namespace PcapdotNET.Protocols.UDP
         {
             string result = _sourceIp[0] + "." + _sourceIp[1] + "." + _sourceIp[2] + "." + _sourceIp[3];
             return result;
+        }
+
+        /// <summary>Set source Port
+        /// Method which set source port
+        /// </summary>
+        /// <param name="port"></param>
+        public void SetSorcePort(uint port)
+        {
+            _sourcePort = port;
         }
 
         /// <summary>Source Port
@@ -104,6 +149,15 @@ namespace PcapdotNET.Protocols.UDP
             return _sourcePort.ToString();
         }
 
+        /// <summary>Set destination port
+        /// Method which set destination port
+        /// </summary>
+        /// <param name="port"></param>
+        public void SetDestinationPort(uint port)
+        {
+            _destinationPort = port;
+        }
+        
         /// <summary>
         /// Return Information about Destination Port
         /// </summary>
@@ -111,6 +165,44 @@ namespace PcapdotNET.Protocols.UDP
         public string GetDestinationPort()
         {
             return _destinationPort.ToString();
+        }
+
+        /// <summary>Override Equals
+        /// Override Equals
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(System.Object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((UdpFrame) obj);
+        }
+
+        /// <summary>Override Equals
+        /// Override Equals
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        protected bool Equals(UdpFrame other)
+        {
+            return _destinationPort == other._destinationPort && _frameLength == other._frameLength && _protocolNumber == other._protocolNumber && _sourcePort == other._sourcePort;
+        }
+
+        /// <summary>OverrideGetHashCode
+        /// Override GetHashCode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (int)_destinationPort;
+                hashCode = (hashCode * 397) ^ (int)_frameLength;
+                hashCode = (hashCode * 397) ^ (int)_protocolNumber;
+                hashCode = (hashCode * 397) ^ (int)_sourcePort;
+                return hashCode;
+            }
         }
     }
 }

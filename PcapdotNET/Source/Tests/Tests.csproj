@@ -62,8 +62,11 @@
     <Reference Include="System.ServiceModel.Activation" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EthernetTest.cs" />
+    <Compile Include="ICMPTest.cs" />
     <Compile Include="TCPTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UDPTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PcapdotNET\PcapdotNET.csproj">
