@@ -83,16 +83,16 @@ namespace PcapdotNET.Protocols.UDP
                     // TODO fix this bug with reading after file ending
                 catch (Exception)
                 {
-                    var someExeption = new Exeption();
-                    Console.WriteLine(someExeption.GetExeptionFromEndOfFile());
+                    var exception = new MyException("End of File!");
+                    throw (exception);
                 }
 
                 reader.Close();
             }
             else
             {
-                var someExeption = new Exeption();
-                Console.WriteLine(someExeption.GetExeptionFileNotFound());
+                var exception = new MyException("File not found!");
+                throw (exception);
              }
         }
 

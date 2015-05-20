@@ -1,26 +1,34 @@
-﻿namespace PcapdotNET.Protocols
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace PcapdotNET.Protocols
 {
-    /// <summary>Class Exeption
-    /// class which contains text exeption
-    /// </summary>
-    class Exeption
+    [Serializable]
+    public class MyException : ApplicationException
     {
-        /// <summary> End File
-        /// Exeption end of file
-        /// </summary>
-        /// <returns></returns>
-        public string GetExeptionFromEndOfFile()
+        //
+        // For guidelines regarding the creation of new exception types, see
+        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
+        // and
+        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
+        //
+
+        public MyException()
         {
-            return "Problem with read text!";
         }
 
-        /// <summary>File not found
-        /// Exeption file not found
-        /// </summary>
-        /// <returns></returns>
-        public string GetExeptionFileNotFound()
+        public MyException(string message) : base(message)
         {
-            return "File not found!";
         }
-    }
+
+        public MyException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+        protected MyException(
+            SerializationInfo info,
+            StreamingContext context) : base(info, context)
+        {
+        }
+    }   
 }

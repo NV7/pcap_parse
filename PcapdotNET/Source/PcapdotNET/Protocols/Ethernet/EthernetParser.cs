@@ -57,14 +57,19 @@ namespace PcapdotNET.Protocols.Ethernet
                     // TODO fix this bug with reading after file ending
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    var exception = new MyException("End of File!");
+                    throw (exception);
                 }
 
                 reader.Close();
             }
 
                 //Throw an exception if file not found
-            else throw new FileNotFoundException();
+            else
+            {
+                var exception = new MyException("File not found!");
+                throw (exception);
+            }
         }
 
         /// <summary>Pass some bytes

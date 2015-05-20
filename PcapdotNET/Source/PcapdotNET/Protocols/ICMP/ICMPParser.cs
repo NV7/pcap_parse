@@ -84,8 +84,8 @@ namespace PcapdotNET.Protocols.ICMP
                 // TODO fix this bug with reading after file ending
                 catch (Exception)
                 {
-                    var someExeption = new Exeption();
-                    Console.WriteLine(someExeption.GetExeptionFromEndOfFile());
+                    var exception = new MyException("End of File!");
+                    throw (exception);
                 }
 
                 reader.Close();
@@ -94,8 +94,8 @@ namespace PcapdotNET.Protocols.ICMP
             //If file not found throw exeption
             else
             {
-                var someExeption = new Exeption();
-                Console.WriteLine(someExeption.GetExeptionFileNotFound());
+                var exception = new MyException("File not found!");
+                throw (exception);
              }
         }
 
