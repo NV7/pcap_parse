@@ -51,14 +51,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container\ApplicationController.cs" />
-    <Compile Include="Container\BasePresenter.cs" />
-    <Compile Include="Container\IApplicationController.cs" />
-    <Compile Include="Container\IContainer.cs" />
-    <Compile Include="Container\IPresenter.cs" />
-    <Compile Include="Container\IView.cs" />
-    <Compile Include="Container\LifeTime.cs" />
-    <Compile Include="Container\LightInjectAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\Ethernet\EthernetFrame.cs" />
     <Compile Include="Protocols\Ethernet\EthernetParser.cs" />

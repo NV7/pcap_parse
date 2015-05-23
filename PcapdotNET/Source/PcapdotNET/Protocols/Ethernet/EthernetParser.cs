@@ -55,7 +55,7 @@ namespace PcapdotNET.Protocols.Ethernet
                 }
 
                     // TODO fix this bug with reading after file ending
-                catch (Exception e)
+                catch (MyException)
                 {
                     var exception = new MyException("End of File!");
                     throw (exception);
