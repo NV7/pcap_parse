@@ -9,7 +9,7 @@ namespace PcapdotNET.Protocols.ICMP
     /// </summary>
     public class ICMPParser : iICMPParser
     {
-        private readonly ArrayList _tcpFrameArray = new ArrayList();
+        private readonly ArrayList _icmpFrameArray = new ArrayList();
 
         /// <summary>Method which read .pcap file
         /// Method which get file name and path to him, them read .pcap file.
@@ -74,7 +74,7 @@ namespace PcapdotNET.Protocols.ICMP
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
-                        _tcpFrameArray.Add(T);
+                        _icmpFrameArray.Add(T);
 
                         // Miss ending of pcap-file, witch depends on FrameLength
                         reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
@@ -135,7 +135,16 @@ namespace PcapdotNET.Protocols.ICMP
         /// <returns></returns>
         public ICMPFrame GetIcmpFrame()
         {
-            return (ICMPFrame)_tcpFrameArray[0];
+            return (ICMPFrame)_icmpFrameArray[0];
+        }
+
+        /// <summary>Return ICMP Frame List
+        /// Return array list
+        /// </summary>
+        /// <returns>ArrayList _icmpFrameArray</returns>
+        public ArrayList GetIcmpFrameList()
+        {
+            return _icmpFrameArray;
         }
 
         /// <summary>Use in LightInject

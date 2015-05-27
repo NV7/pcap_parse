@@ -129,9 +129,18 @@ namespace PcapdotNET.Protocols.Ethernet
         /// Get Array list there [0] - Destination Ip; [1] - Source Ip; [2] - Ethernet Frame;
         /// </summary>
         /// <returns></returns>
-        public EthernetFrame GetEthernetFrameList()
+        public EthernetFrame GetEthernetFrame()
         {
             return (EthernetFrame)_ethernetFrameArray[0];
+        }
+
+        /// <summary>Get Ethernet Frame List
+        /// Get Array list 
+        /// </summary>
+        /// <returns>ArrayList -ethernetFrameArray</returns>
+        public ArrayList GetEthernetFrameList()
+        {
+            return _ethernetFrameArray;
         }
 
         /// <summary>Use in LightInject

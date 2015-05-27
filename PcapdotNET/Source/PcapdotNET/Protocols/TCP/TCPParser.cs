@@ -131,6 +131,15 @@ namespace PcapdotNET.Protocols.TCP
             return (TCPFrame)_tcpFrameArray[0];
         }
 
+        /// <summary>Return TCP Frame List
+        /// This method return object TCPFarme
+        /// </summary>
+        /// <returns>ArrayList _tcpFrameArray</returns>
+        public ArrayList GetTCPFrameList()
+        {
+            return _tcpFrameArray;
+        }
+
         /// <summary>Use in LightInject
         /// This method refers to IoC Container
         /// </summary>

@@ -9,7 +9,7 @@ namespace PcapdotNET.Protocols.UDP
     /// </summary>
     public class UDPParser : IUDPParser
     {
-        private readonly ArrayList _tcpFrameArray = new ArrayList();
+        private readonly ArrayList _udpFrameArray = new ArrayList();
 
         /// <summary>Method wich read .pcap file
         /// Method Udp Parser which read information from .pcap file
@@ -73,7 +73,7 @@ namespace PcapdotNET.Protocols.UDP
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
-                        _tcpFrameArray.Add(T);
+                        _udpFrameArray.Add(T);
 
                         // Miss ending of pcap-file, witch depends on FrameLength
                         reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
@@ -132,7 +132,16 @@ namespace PcapdotNET.Protocols.UDP
         /// <returns></returns>
         public UdpFrame GetUDPFrame()
         {
-            return (UdpFrame)_tcpFrameArray[0];
+            return (UdpFrame)_udpFrameArray[0];
+        }
+
+        /// <summary>Return UPD Frame List, that found in frame
+        ///  Get this dump of processed frames
+        /// </summary>
+        /// <returns>ArrayList _udpFrameArray</returns>
+        public ArrayList GetUDPFrameList()
+        {
+            return _udpFrameArray;
         }
 
         /// <summary>Use in LightInject

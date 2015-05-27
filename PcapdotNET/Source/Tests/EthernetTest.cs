@@ -17,9 +17,9 @@ namespace Tests
             var frame = container.Create<EthernetParser>();
            frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
 
-            Assert.That(frame.GetEthernetFrameList().GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
-            Assert.That(frame.GetEthernetFrameList().GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
-            Console.WriteLine(frame.GetEthernetFrameList().GetSourceIP());        
+            Assert.That(frame.GetEthernetFrame().GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
+            Assert.That(frame.GetEthernetFrame().GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
+            Console.WriteLine(frame.GetEthernetFrame().GetSourceIP());        
         }
     }
 }
