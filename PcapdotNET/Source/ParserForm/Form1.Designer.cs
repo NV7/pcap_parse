@@ -28,20 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pickfilebutton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.filenametextbox = new System.Windows.Forms.TextBox();
             this.filenamelabel = new System.Windows.Forms.Label();
             this.startbutton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.numbercolumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.protocolcolumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sourceipcolumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sourceportcolumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.destinationipcolumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.destinationport = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lengthcolumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.exitbutton = new System.Windows.Forms.Button();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // pickfilebutton
@@ -50,7 +55,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pickfilebutton.Location = new System.Drawing.Point(12, 12);
             this.pickfilebutton.Name = "pickfilebutton";
-            this.pickfilebutton.Size = new System.Drawing.Size(518, 23);
+            this.pickfilebutton.Size = new System.Drawing.Size(610, 23);
             this.pickfilebutton.TabIndex = 0;
             this.pickfilebutton.Text = "Выберете .pcap файл для обработки";
             this.pickfilebutton.UseVisualStyleBackColor = true;
@@ -64,7 +69,7 @@
             this.groupBox1.Controls.Add(this.filenamelabel);
             this.groupBox1.Location = new System.Drawing.Point(12, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(518, 50);
+            this.groupBox1.Size = new System.Drawing.Size(610, 50);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выбранный файл";
@@ -91,7 +96,7 @@
             // startbutton
             // 
             this.startbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.startbutton.Location = new System.Drawing.Point(397, 265);
+            this.startbutton.Location = new System.Drawing.Point(489, 265);
             this.startbutton.Name = "startbutton";
             this.startbutton.Size = new System.Drawing.Size(133, 23);
             this.startbutton.TabIndex = 2;
@@ -107,47 +112,55 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.numbercolumn,
             this.protocolcolumn,
             this.sourceipcolumn,
             this.sourceportcolumn,
             this.destinationipcolumn,
-            this.destinationport});
+            this.destinationport,
+            this.lengthcolumn});
             this.dataGridView1.Location = new System.Drawing.Point(12, 97);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridView1.Size = new System.Drawing.Size(518, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(610, 150);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // numbercolumn
+            // 
+            this.numbercolumn.HeaderText = "№";
+            this.numbercolumn.Name = "numbercolumn";
+            this.numbercolumn.ReadOnly = true;
             // 
             // protocolcolumn
             // 
             this.protocolcolumn.HeaderText = "Протокол";
             this.protocolcolumn.Name = "protocolcolumn";
-            this.protocolcolumn.ReadOnly = true;
             // 
             // sourceipcolumn
             // 
             this.sourceipcolumn.HeaderText = "IP Отправителя";
             this.sourceipcolumn.Name = "sourceipcolumn";
-            this.sourceipcolumn.ReadOnly = true;
             // 
             // sourceportcolumn
             // 
             this.sourceportcolumn.HeaderText = "Порт";
             this.sourceportcolumn.Name = "sourceportcolumn";
-            this.sourceportcolumn.ReadOnly = true;
             // 
             // destinationipcolumn
             // 
             this.destinationipcolumn.HeaderText = "IP Получателя";
             this.destinationipcolumn.Name = "destinationipcolumn";
-            this.destinationipcolumn.ReadOnly = true;
             // 
             // destinationport
             // 
             this.destinationport.HeaderText = "Порт";
             this.destinationport.Name = "destinationport";
-            this.destinationport.ReadOnly = true;
+            // 
+            // lengthcolumn
+            // 
+            this.lengthcolumn.HeaderText = "Длина";
+            this.lengthcolumn.Name = "lengthcolumn";
             // 
             // exitbutton
             // 
@@ -164,7 +177,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(542, 300);
+            this.ClientSize = new System.Drawing.Size(634, 300);
             this.Controls.Add(this.exitbutton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.startbutton);
@@ -172,9 +185,11 @@
             this.Controls.Add(this.pickfilebutton);
             this.Name = "Form1";
             this.Text = "PCAP Parse";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -187,12 +202,15 @@
         private System.Windows.Forms.TextBox filenametextbox;
         private System.Windows.Forms.Button startbutton;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button exitbutton;
+        private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numbercolumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn protocolcolumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn sourceipcolumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn sourceportcolumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn destinationipcolumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn destinationport;
-        private System.Windows.Forms.Button exitbutton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lengthcolumn;
     }
 }
 

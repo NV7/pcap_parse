@@ -84,7 +84,7 @@ namespace PcapdotNET.Protocols.UDP
                 catch (Exception)
                 {
                     var exception = new MyException("End of File!");
-                    throw (exception);
+                    //throw (exception);
                 }
 
                 reader.Close();
@@ -92,7 +92,7 @@ namespace PcapdotNET.Protocols.UDP
             else
             {
                 var exception = new MyException("File not found!");
-                throw (exception);
+                //throw (exception);
              }
         }
 
