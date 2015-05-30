@@ -21,7 +21,6 @@ namespace PcapdotNET.Protocols.ICMP
             {
                 var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
 
-                //If open file
                 try
                 {
                     // Missed header of file
@@ -95,7 +94,7 @@ namespace PcapdotNET.Protocols.ICMP
             {
                 var exception = new MyException("File not found!");
                 throw (exception);
-             }
+            }
         }
 
         /// <summary> Read Source Ip
