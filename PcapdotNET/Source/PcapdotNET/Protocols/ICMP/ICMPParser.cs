@@ -27,7 +27,7 @@ namespace PcapdotNET.Protocols.ICMP
                     // Missed header of file
                     reader.ReadBytes(PacketFields.PcapHeaderLength);
 
-                    while (reader.ReadByte() > 0)
+                    while (reader.PeekChar() != -1)
                     {
                         // Missed frame header
                         reader.ReadBytes(PacketFields.FrameHeaderLength);
@@ -81,7 +81,6 @@ namespace PcapdotNET.Protocols.ICMP
                     }
                 }
 
-                // TODO fix this bug with reading after file ending
                 catch (Exception)
                 {
                     var exception = new MyException("End of File!");

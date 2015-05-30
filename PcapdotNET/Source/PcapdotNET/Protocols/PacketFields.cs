@@ -15,7 +15,7 @@
         public readonly static int AmountOfEthernetParts = 6;
 
         // Amount of bytes, that we miss in the begining of current frame
-        public readonly static int FrameHeaderLength = 7;
+        public readonly static int FrameHeaderLength = 8;
 
         // Amount of bytes, that we miss between header of current frame and information about Ethernet adresses
         public readonly static int BytesBetweenHeaderOfFrameAndEthernetAdress = 4;

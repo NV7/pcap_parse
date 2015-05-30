@@ -26,7 +26,7 @@ namespace PcapdotNET.Protocols.UDP
                     // Missed header of file
                     reader.ReadBytes(PacketFields.PcapHeaderLength);
 
-                    while (reader.ReadByte() > 0)
+                    while (reader.PeekChar() != -1)
                     {
                         // Missed frame header
                         reader.ReadBytes(PacketFields.FrameHeaderLength);
@@ -75,16 +75,15 @@ namespace PcapdotNET.Protocols.UDP
                         // Pull current TCPandUDPFrame to dump
                         _udpFrameArray.Add(T);
 
-                        // Miss ending of pcap-file, witch depends on FrameLength
+                        // Miss ending of pcap-file, which depends on FrameLength
                         reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
                     }
                 }
 
-                    // TODO fix this bug with reading after file ending
                 catch (Exception)
                 {
                     var exception = new MyException("End of File!");
-                    //throw (exception);
+                    throw (exception);
                 }
 
                 reader.Close();
@@ -92,8 +91,8 @@ namespace PcapdotNET.Protocols.UDP
             else
             {
                 var exception = new MyException("File not found!");
-                //throw (exception);
-             }
+                throw (exception);
+            }
         }
 
         /// <summary>Read Source Ip
