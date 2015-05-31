@@ -11,7 +11,7 @@ namespace PcapdotNET.Protocols.Ethernet
     {
         // Put here all info, collected from file
         private readonly ArrayList _ethernetFrameArray = new ArrayList();
-        
+
         /// <summary>Method
         /// This method get parameter : file name and path to him ,and them read helpful information.
         /// </summary>
@@ -27,7 +27,7 @@ namespace PcapdotNET.Protocols.Ethernet
                     // Missed header of file
                     reader.ReadBytes(PacketFields.PcapHeaderLength);
 
-                    while (reader.PeekChar() != -1)
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
                         // Missed frame header
                         reader.ReadBytes(PacketFields.FrameHeaderLength);

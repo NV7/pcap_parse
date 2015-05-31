@@ -22,7 +22,7 @@ namespace PcapdotNET.Protocols.TCP
                     // Missed header of file
                     reader.ReadBytes(PacketFields.PcapHeaderLength);
 
-                    while (reader.PeekChar() != -1)
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
                         // Missed frame header
                         reader.ReadBytes(PacketFields.FrameHeaderLength);

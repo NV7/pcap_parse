@@ -1,18 +1,17 @@
-﻿using System;
-using System.Threading;
-
-namespace PcapdotNET.Protocols.Ethernet
+﻿namespace PcapdotNET.Protocols.Ethernet
 {
-    /// <summary>Ethernet Protocol
-    /// Class which contains information about Ethernet Protocol
+    /// <summary>
+    ///     Ethernet Protocol
+    ///     Class which contains information about Ethernet Protocol
     /// </summary>
-    public class EthernetFrame : System.Object
+    public class EthernetFrame : object
     {
         private int[] _destinationIp = new int[PacketFields.AmountOfEthernetParts];
         private int[] _sourceIp = new int[PacketFields.AmountOfEthernetParts];
 
-        /// <summary>Constructor
-        /// Constructor for EthernetFarme
+        /// <summary>
+        ///     Constructor
+        ///     Constructor for EthernetFarme
         /// </summary>
         /// <param name="destinationIp"></param>
         /// <param name="sourceIp"></param>
@@ -21,29 +20,33 @@ namespace PcapdotNET.Protocols.Ethernet
             _destinationIp = destinationIp;
             _sourceIp = sourceIp;
         }
-        
-        /// <summary>Destination Ip 
-        /// Method which returns Destination Ip 
+
+        /// <summary>
+        ///     Destination Ip
+        ///     Method which returns Destination Ip
         /// </summary>
         /// <returns></returns>
         public string GetDestinationIp()
         {
-            string result = _destinationIp[0].ToString("X") + "." + _destinationIp[1].ToString("X") + "." + _destinationIp[2].ToString("X") + "." + _destinationIp[3].ToString("X") +
-                            "." + _destinationIp[4].ToString("X") + "." + _destinationIp[5].ToString("X");
+            var result = _destinationIp[0].ToString("X") + "." + _destinationIp[1].ToString("X") + "." +
+                         _destinationIp[2].ToString("X") + "." + _destinationIp[3].ToString("X") +
+                         "." + _destinationIp[4].ToString("X") + "." + _destinationIp[5].ToString("X");
             return result;
         }
 
-        /// <summary>Set DestinationIp
-        /// This method set Destination Ip.
+        /// <summary>
+        ///     Set DestinationIp
+        ///     This method set Destination Ip.
         /// </summary>
         /// <param name="destinationIp"></param>
         public void SetDestinationIP(int[] destinationIp)
         {
-            _destinationIp =  destinationIp;
+            _destinationIp = destinationIp;
         }
 
-        /// <summary>Set source Ip
-        /// This method set source Ip.
+        /// <summary>
+        ///     Set source Ip
+        ///     This method set source Ip.
         /// </summary>
         /// <param name="sourceIp"></param>
         public void SetSourceIp(int[] sourceIp)
@@ -51,19 +54,23 @@ namespace PcapdotNET.Protocols.Ethernet
             _sourceIp = sourceIp;
         }
 
-        /// <summary>Get Source Ip
-        /// Method which returns Source Ip
+        /// <summary>
+        ///     Get Source Ip
+        ///     Method which returns Source Ip
         /// </summary>
         /// <returns></returns>
         public string GetSourceIP()
         {
-            string result = _sourceIp[0].ToString("X") + "." + _sourceIp[1].ToString("X") + "." + _sourceIp[2].ToString("X") + "." + _sourceIp[3].ToString("X") + "." + _sourceIp[4].ToString("X") +
-                            "." + _sourceIp[5].ToString("X");
+            var result = _sourceIp[0].ToString("X") + "." + _sourceIp[1].ToString("X") + "." +
+                         _sourceIp[2].ToString("X") + "." + _sourceIp[3].ToString("X") + "." +
+                         _sourceIp[4].ToString("X") +
+                         "." + _sourceIp[5].ToString("X");
             return result;
         }
 
-        /// <summary>Returns Informations
-        /// Method which returns all information about Ethernet Protocol
+        /// <summary>
+        ///     Returns Informations
+        ///     Method which returns all information about Ethernet Protocol
         /// </summary>
         /// <returns></returns>
         public string GetInformation()
@@ -71,13 +78,15 @@ namespace PcapdotNET.Protocols.Ethernet
             return _destinationIp[0].ToString("X") + "." + _destinationIp[1].ToString("X") + "." +
                    _destinationIp[2].ToString("X") + "." + _destinationIp[3].ToString("X") +
                    "." + _destinationIp[4].ToString("X") + "." + _destinationIp[5].ToString("X") + " <- " +
-                   _sourceIp[0].ToString("X") + "." + _sourceIp[1].ToString("X") + "." + _sourceIp[2].ToString("X") + "." +
+                   _sourceIp[0].ToString("X") + "." + _sourceIp[1].ToString("X") + "." + _sourceIp[2].ToString("X") +
+                   "." +
                    _sourceIp[3].ToString("X") + "." + _sourceIp[4].ToString("X") +
                    "." + _sourceIp[5].ToString("X");
         }
 
-        /// <summary>Operator Equals
-        /// Override operator
+        /// <summary>
+        ///     Operator Equals
+        ///     Override operator
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -86,24 +95,26 @@ namespace PcapdotNET.Protocols.Ethernet
             return Equals(_destinationIp, other._destinationIp) && Equals(_sourceIp, other._sourceIp);
         }
 
-        /// <summary>Method Get Hash Code
-        /// Override method
+        /// <summary>
+        ///     Method Get Hash Code
+        ///     Override method
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((_destinationIp != null ? _destinationIp.GetHashCode() : 0) * 397) ^ (_sourceIp != null ? _sourceIp.GetHashCode() : 0);
+                return ((_destinationIp != null ? _destinationIp.GetHashCode() : 0)*397) ^
+                       (_sourceIp != null ? _sourceIp.GetHashCode() : 0);
             }
         }
 
-        /// <summary>Override operator comparison
-        /// 
+        /// <summary>
+        ///     Override operator comparison
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(System.Object obj)
+        public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

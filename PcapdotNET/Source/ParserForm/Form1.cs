@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using PcapdotNET.Protocols.ICMP;
 using PcapdotNET.Protocols.UDP;
 
 namespace ParserForm
@@ -47,12 +48,12 @@ namespace ParserForm
         private void FillTheTableWithParsedFile(object obj, EventArgs evargs)
         {
             var _button = (Button) obj;
-            var _frame = new UDPParser();
-            _frame.FileReader(ofd.FileName);
-            for (var i = 0; i < _frame.GetUDPFrameList().Count; ++i)
+            var _frame = new ICMPParser();
+            _frame.ReadFile(ofd.FileName);
+            for (var i = 0; i < _frame.GetIcmpFrameList().Count; ++i)
             {
                 dataGridView1.Rows.Add();
-                var _currentframe = (UdpFrame) _frame.GetUDPFrameList()[i];
+                var _currentframe = (ICMPFrame)_frame.GetIcmpFrameList()[i];
                 dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
                 dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
                 dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();

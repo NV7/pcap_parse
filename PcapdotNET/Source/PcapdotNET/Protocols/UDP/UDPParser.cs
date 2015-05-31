@@ -15,7 +15,7 @@ namespace PcapdotNET.Protocols.UDP
         /// Method Udp Parser which read information from .pcap file
         /// </summary>
         /// <param name="fileName"></param>
-        public void FileReader(string fileName)
+        public void ReadFile(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -26,7 +26,7 @@ namespace PcapdotNET.Protocols.UDP
                     // Missed header of file
                     reader.ReadBytes(PacketFields.PcapHeaderLength);
 
-                    while (reader.PeekChar() != -1)
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
                         // Missed frame header
                         reader.ReadBytes(PacketFields.FrameHeaderLength);
@@ -69,7 +69,7 @@ namespace PcapdotNET.Protocols.UDP
                         uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
 
                         // Fill current TCPandUDPFrame
-                        var T = new UdpFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
+                        var T = new UDPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
                             protocolNumber);
 
                         // Pull current TCPandUDPFrame to dump
@@ -129,9 +129,9 @@ namespace PcapdotNET.Protocols.UDP
         ///  Get this dump of processed frames
         /// </summary>
         /// <returns></returns>
-        public UdpFrame GetUDPFrame()
+        public UDPFrame GetUDPFrame()
         {
-            return (UdpFrame)_udpFrameArray[0];
+            return (UDPFrame)_udpFrameArray[0];
         }
 
         /// <summary>Return UPD Frame List, that found in frame

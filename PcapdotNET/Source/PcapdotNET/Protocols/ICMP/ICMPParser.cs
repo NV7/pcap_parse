@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using PcapdotNET.Protocols.TCP;
 
 namespace PcapdotNET.Protocols.ICMP
 {
@@ -26,7 +27,7 @@ namespace PcapdotNET.Protocols.ICMP
                     // Missed header of file
                     reader.ReadBytes(PacketFields.PcapHeaderLength);
 
-                    while (reader.PeekChar() != -1)
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
                         // Missed frame header
                         reader.ReadBytes(PacketFields.FrameHeaderLength);

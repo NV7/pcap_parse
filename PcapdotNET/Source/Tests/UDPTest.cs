@@ -14,9 +14,9 @@ namespace Tests
             container.Register<IUDPParser, UDPParser>();
 
             var frame = container.Create<UDPParser>();
-            frame.FileReader(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
+            frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
 
-            var testFrame = new UdpFrame();
+            var testFrame = new UDPFrame();
             int[] destIp = { 10, 0, 0, 1 };
             int[] sourceIp = { 192, 168, 0, 143 };
             

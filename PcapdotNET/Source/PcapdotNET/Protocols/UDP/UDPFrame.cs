@@ -3,7 +3,7 @@
     /// <summary>UDP frame
     /// Class UDP Frame
     /// </summary>
-    public class UdpFrame
+    public class UDPFrame
     {
         private int[] _destinationIp = new int[PacketFields.AmountOfIpParts];  //4 parts of IP address
         private uint _destinationPort;              //2 bytes for the destination port number
@@ -21,7 +21,7 @@
         /// <param name="sourceIp"></param>
         /// <param name="sourcePort"></param>
         /// <param name="protocolNumber"></param>
-        public UdpFrame(int[] destinationIp, uint destinationPort, uint frameLength, int[] sourceIp, uint sourcePort, uint protocolNumber)
+        public UDPFrame(int[] destinationIp, uint destinationPort, uint frameLength, int[] sourceIp, uint sourcePort, uint protocolNumber)
         {
             _destinationIp = destinationIp;
             _destinationPort = destinationPort;
@@ -34,7 +34,7 @@
         /// <summary>Constructor
         /// Default constructor
         /// </summary>
-        public UdpFrame()
+        public UDPFrame()
         {}
 
         /// <summary>Return Information
@@ -176,7 +176,7 @@
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((UdpFrame) obj);
+            return obj.GetType() == GetType() && Equals((UDPFrame) obj);
         }
 
         /// <summary>Override Equals
@@ -184,7 +184,7 @@
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        protected bool Equals(UdpFrame other)
+        protected bool Equals(UDPFrame other)
         {
             return _destinationPort == other._destinationPort && _frameLength == other._frameLength && _protocolNumber == other._protocolNumber && _sourcePort == other._sourcePort;
         }
