@@ -7,142 +7,77 @@ namespace PcapdotNET.Protocols.UDP
     /// <summary>UDP Parser
     /// Class UDP Parser
     /// </summary>
-    public class UDPParser : IUDPParser
+    public class UdpParser : IUDPParser
     {
         private readonly ArrayList _udpFrameArray = new ArrayList();
+        private uint _frameLength;
 
-        /// <summary>Method wich read .pcap file
-        /// Method Udp Parser which read information from .pcap file
-        /// </summary>
-        /// <param name="fileName"></param>
-        public void ReadFile(string fileName)
+        public void SetFrameLenght(uint frameLength)
         {
-            if (File.Exists(fileName))
-            {
-                var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
+            _frameLength = frameLength;
+        }
+        
+        public UDPFrame GetUdpPacket(byte[] bytes)
+        {
+            // Fill Source & Destination IP
+            var sourceIp = ReadSource(bytes);
+            
+            var destinationIp = ReadDestination(bytes);
 
-                try
-                {
-                    // Missed header of file
-                    reader.ReadBytes(PacketFields.PcapHeaderLength);
+            // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
+            var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
+            
+            int j = 10;
+            for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
+                draftPort[i] = bytes[j];
 
-                    while (reader.BaseStream.Position < reader.BaseStream.Length)
-                    {
-                        // Missed frame header
-                        reader.ReadBytes(PacketFields.FrameHeaderLength);
+            uint sourcePort = draftPort[0] * PacketFields.Offset + draftPort[1];
 
-                        // Read amount of bytes in this frame
-                        uint frameLength = reader.ReadUInt32();
+            for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
+                draftPort[i] = bytes[j];
 
-                        reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress);
+            uint destinationPort = draftPort[0] * PacketFields.Offset + draftPort[1];
 
-                        // skip Ethernet info
-                        reader.ReadBytes(PacketFields.AmountOfEthernetParts);
-                        reader.ReadBytes(PacketFields.AmountOfEthernetParts);
+            var T = new UDPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
+                            17);
 
-                        // Missed
-                        reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId);
-
-                        // Read Protocol Identificator
-                        uint protocolNumber = reader.ReadByte();
-
-                        // Missed
-                        reader.ReadByte();
-                        reader.ReadByte();
-
-                        // Fill Source & Destination IP
-                        var SourceIP = ReadSourceIp(ref reader);
-                        ;
-                        var DestinationIP = ReadDestinationIp(ref reader);
-
-                        // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
-                        var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
-
-                        for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i)
-                            draftPort[i] = reader.ReadByte();
-
-                        uint sourcePort = draftPort[0]*PacketFields.Offset + draftPort[1];
-
-                        for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i)
-                            draftPort[i] = reader.ReadByte();
-
-                        uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
-
-                        // Fill current TCPandUDPFrame
-                        var T = new UDPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
-                            protocolNumber);
-
-                        // Pull current TCPandUDPFrame to dump
-                        _udpFrameArray.Add(T);
-
-                        // Miss ending of pcap-file, which depends on FrameLength
-                        reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
-                    }
-                }
-
-                catch (Exception)
-                {
-                    var exception = new MyException("End of File!");
-                    throw (exception);
-                }
-
-                reader.Close();
-            }
-            else
-            {
-                var exception = new MyException("File not found!");
-                throw (exception);
-            }
+            return T;
         }
 
-        /// <summary>Read Source Ip
-        /// Read information about source Ip
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
+        private int[] ReadDestination(byte[] bytes)
         {
-            var SourceIP = new int[PacketFields.AmountOfIpParts];
+            var destinationIp = new int[PacketFields.AmountOfIpParts];
+            var j = 6;
 
-            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
-                SourceIP[i] = reader.ReadByte();
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
+                destinationIp[i] = bytes[j];
 
-            return SourceIP;
+            return destinationIp;
         }
 
-        /// <summary>Destination Ip
-        /// Read information about destination Ip
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
+        private int[] ReadSource(byte[] bytes)
         {
-            var DestinationIP = new int[PacketFields.AmountOfIpParts];
+            var sourceIp = new int[PacketFields.AmountOfIpParts];
+            var j = 2;
 
-            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
-                DestinationIP[i] = reader.ReadByte();
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
+                sourceIp[i] = bytes[j];
 
-            return DestinationIP;
+            return sourceIp;
         }
+
+
         
         /// <summary>Return UPD Frame 
         ///  Get this dump of processed frames
         /// </summary>
         /// <returns></returns>
-        public UDPFrame GetUDPFrame()
+        public UDPFrame GetUdpFrame()
         {
             return (UDPFrame)_udpFrameArray[0];
         }
 
-        /// <summary>Return UPD Frame List, that found in frame
-        ///  Get this dump of processed frames
-        /// </summary>
-        /// <returns>ArrayList _udpFrameArray</returns>
-        public ArrayList GetUDPFrameList()
-        {
-            return _udpFrameArray;
-        }
-
+        
         /// <summary>Use in LightInject
         /// This method refers to IoC Container
         /// </summary>
