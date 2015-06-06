@@ -118,7 +118,7 @@
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public string GetFrameLength(int i)
+        public string GetFrameLength()
         {
             return _frameLength.ToString();
         }

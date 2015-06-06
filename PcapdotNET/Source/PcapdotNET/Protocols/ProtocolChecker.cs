@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using PcapdotNET.Protocols.Ethernet;
 using PcapdotNET.Protocols.ICMP;
@@ -38,6 +39,11 @@ namespace PcapdotNET.Protocols
         public ArrayList GetTcpFrameList()
         {
             return _tcpFrameList;
+        }
+
+        public ArrayList GetFrameList()
+        {
+            return _frameArray;
         }
 
         /// <summary>Open and read pcap file
@@ -94,9 +100,9 @@ namespace PcapdotNET.Protocols
 
                         case 6:
                         {
-                            var frame = container.Create<UdpParser>();
-                            _frameArray.Add(frame.GetUdpPacket(dataArray));
-                            _tcpFrameList.Add(frame.GetUdpPacket(dataArray));
+                            var frame = container.Create<TCPParser>();
+                            _frameArray.Add(frame.GetTCPPacket(dataArray));
+                            _tcpFrameList.Add(frame.GetTCPPacket(dataArray));
 
                             break;
                             }
