@@ -12,125 +12,57 @@ namespace PcapdotNET.Protocols.Ethernet
         // Put here all info, collected from file
         private readonly ArrayList _ethernetFrameArray = new ArrayList();
 
-        /// <summary>Method
-        /// This method get parameter : file name and path to him ,and them read helpful information.
+        /// <summary>Read need information about Ethernet Protocol
+        /// Get byte[] with data 
         /// </summary>
-        /// <param name="fileName"></param>
-        public void ReadFile(string fileName)
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public EthernetFrame GetEthernetPacket(byte[] bytes)
         {
-            if (File.Exists(fileName))
-            {
-                var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
-
-                try
-                {
-                    // Missed header of file
-                    reader.ReadBytes(PacketFields.PcapHeaderLength);
-
-                    while (reader.BaseStream.Position < reader.BaseStream.Length)
-                    {
-                        // Missed frame header
-                        reader.ReadBytes(PacketFields.FrameHeaderLength);
-
-                        uint frameLength = reader.ReadUInt32();
-
-                        reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress);
-
+        
                         // Get Ethernet info
-                        var ethernetDestinationIp = ReadDestinationIp(ref reader);
+                        var ethernetDestinationIp = ReadDestinationIp(bytes);
 
-                        var ethernetSourceIp = ReadSourceIp(ref reader);
-
-                        MissedBytes(ref reader);
-
+                        var ethernetSourceIp = ReadSourceIp(bytes);
 
                         var ethernetFrame = new EthernetFrame(ethernetDestinationIp, ethernetSourceIp);
 
                         // Pull current Ethernet frame to dump
                         _ethernetFrameArray.Add(ethernetFrame);
 
-                        // Miss ending of .pcap file, witch depends on FrameLength
-                        reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
-                    }
-                }
-
-                catch (MyException)
-                {
-                    var exception = new MyException("End of File!");
-                    throw (exception);
-                }
-
-                reader.Close();
-            }
-
-                //Throw an exception if file not found
-            else
-            {
-                var exception = new MyException("File not found!");
-                throw (exception);
-            }
+            return ethernetFrame;
         }
 
-        /// <summary>Pass some bytes
-        /// Missed some bytes
+        /// <summary>Read destination Ip
+        /// Read Destination Ip From byte[]
         /// </summary>
-        /// <param name="reader"></param>
-        internal void MissedBytes(ref System.IO.BinaryReader reader)
-        {
-            // Missed
-            reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId);
-
-            // Read Protocol Identificator
-            reader.ReadByte();
-
-            // Missed
-            reader.ReadByte();
-            reader.ReadByte();
-
-            reader.ReadBytes(PacketFields.AmountOfIpParts*2);
-
-
-            // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
-            reader.ReadBytes(PacketFields.AmountOfBytesInPortNumber);
-
-            reader.ReadBytes(PacketFields.AmountOfBytesInPortNumber);
-        }
-
-        /// <summary>Source Ip
-        ///Read Source Ip from .pcap file 
-        /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="bytes"></param>
         /// <returns></returns>
-        private int[] ReadSourceIp(ref System.IO.BinaryReader reader)
+        private static int[] ReadDestinationIp(byte[] bytes)
         {
-            var ethernetSourceIp = new int[PacketFields.AmountOfEthernetParts];
-            for (var i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
-                ethernetSourceIp[i] = reader.ReadByte();
+            var destinationIp = new int[PacketFields.AmountOfIpParts];
+            var j = 6;
 
-            return ethernetSourceIp;
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
+                destinationIp[i] = bytes[j];
+
+            return destinationIp;
         }
 
-        /// <summary>Destination Ip
-        /// Read Destination Ip from .pcap file
+        /// <summary>Read source Ip
+        /// Read Source Ip from byte[]
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="bytes"></param>
         /// <returns></returns>
-        private int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
+        private static int[] ReadSourceIp(byte[] bytes)
         {
-            var ethernetDestinationIp = new int[PacketFields.AmountOfEthernetParts];
-            for (var i = 0; i < PacketFields.AmountOfEthernetParts; ++i)
-                ethernetDestinationIp[i] = reader.ReadByte();
+            var sourceIp = new int[PacketFields.AmountOfIpParts];
+            var j = 2;
 
-            return ethernetDestinationIp;
-        }
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
+                sourceIp[i] = bytes[j];
 
-        /// <summary>Get Ethernet Frame
-        /// Get Array list there [0] - Destination Ip; [1] - Source Ip; [2] - Ethernet Frame;
-        /// </summary>
-        /// <returns></returns>
-        public EthernetFrame GetEthernetFrame()
-        {
-            return (EthernetFrame)_ethernetFrameArray[0];
+            return sourceIp;
         }
 
         /// <summary>Get Ethernet Frame List

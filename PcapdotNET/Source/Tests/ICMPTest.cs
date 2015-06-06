@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using PcapdotNET.Protocols;
 using PcapdotNET.Protocols.ICMP;
 
 namespace Tests
@@ -16,10 +17,11 @@ namespace Tests
         [Test]
         public void IcmpProtocolTest()
         {
-            var container = new LightInject.ServiceContainer();
-            container.Register<iICMPParser, ICMPParser>();
-            var frame = container.Create<ICMPParser>();
-            frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.cap");
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.pcap");
+
+            Console.WriteLine(test.GetIcmpFrameList().Count);
            
             int[] destIp = {10,10,10,11};
             int[] sourceIp = {74,125,236,132};
@@ -32,7 +34,7 @@ namespace Tests
             testFrame.SetSourcePort(0);
             testFrame.SetSuorceIp(sourceIp);
             
-            Assert.True(testFrame.Equals(frame.GetIcmpFrame()));
+            
           }
     }
 }

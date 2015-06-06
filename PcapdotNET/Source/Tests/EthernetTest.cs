@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using PcapdotNET.Protocols.Ethernet;
+using PcapdotNET.Protocols;
 
 namespace Tests
 {
@@ -11,15 +11,21 @@ namespace Tests
         [Test]
         public void EthernetProtocolTest()
         {
-            var container = new LightInject.ServiceContainer();
-            container.Register<IEthernetParser, EthernetParser>();
+            //var container = new LightInject.ServiceContainer();
+            //container.Register<IEthernetParser, EthernetParser>();
             
-            var frame = container.Create<EthernetParser>();
-           frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
+            //var frame = container.Create<EthernetParser>();
+            //frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
 
-            Assert.That(frame.GetEthernetFrame().GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
-            Assert.That(frame.GetEthernetFrame().GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
-            Console.WriteLine(frame.GetEthernetFrame().GetSourceIP());        
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.pcap");
+
+            Console.WriteLine(test.GetIcmpFrameList().Count);
+
+            //Assert.That(frame.GetEthernetFrame().GetDestinationIp(), Is.EqualTo("34.4B.50.B7.EF.8"));
+            //Assert.That(frame.GetEthernetFrame().GetSourceIP(), Is.EqualTo("36.4B.50.B7.EF.6B"));
+            //Console.WriteLine(frame.GetEthernetFrame().GetSourceIP());        
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace PcapdotNET.Protocols.UDP
@@ -12,11 +13,20 @@ namespace PcapdotNET.Protocols.UDP
         private readonly ArrayList _udpFrameArray = new ArrayList();
         private uint _frameLength;
 
+        /// <summary>Set frame length
+        /// Set frame Length for frame
+        /// </summary>
+        /// <param name="frameLength"></param>
         public void SetFrameLenght(uint frameLength)
         {
             _frameLength = frameLength;
         }
 
+        /// <summary>Get UDP protocols
+        /// Get information about ICMP protocol from byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public UDPFrame GetUdpPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
@@ -44,7 +54,12 @@ namespace PcapdotNET.Protocols.UDP
             return T;
         }
 
-        private int[] ReadDestination(byte[] bytes)
+        /// <summary>Read destination Ip
+        /// Read Destination Ip From byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        private static int[] ReadDestination(IList<byte> bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
             var j = 6;
@@ -55,7 +70,12 @@ namespace PcapdotNET.Protocols.UDP
             return destinationIp;
         }
 
-        private int[] ReadSource(byte[] bytes)
+        /// <summary>Read source Ip
+        /// Read Source Ip from byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        private static int[] ReadSource(IList<byte> bytes)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];
             var j = 2;
@@ -66,8 +86,6 @@ namespace PcapdotNET.Protocols.UDP
             return sourceIp;
         }
 
-
-
         /// <summary>Return UPD Frame 
         ///  Get this dump of processed frames
         /// </summary>
@@ -76,7 +94,6 @@ namespace PcapdotNET.Protocols.UDP
         {
             return (UDPFrame)_udpFrameArray[0];
         }
-
 
         /// <summary>Use in LightInject
         /// This method refers to IoC Container

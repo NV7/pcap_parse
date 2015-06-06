@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace PcapdotNET.Protocols.TCP
@@ -12,11 +13,21 @@ namespace PcapdotNET.Protocols.TCP
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
         private uint _frameLength;
+
+        /// <summary>Set frame length
+        /// Set frame Length for frame
+        /// </summary>
+        /// <param name="frameLength"></param>
         public void SetFrameLenght(uint frameLength)
         {
             _frameLength = frameLength;
         }
 
+        /// <summary>Get TCP protocols
+        /// Get information about TCP protocol from byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public TCPFrame GetTCPPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
@@ -44,7 +55,12 @@ namespace PcapdotNET.Protocols.TCP
             return T;
         }
 
-        private int[] ReadDestination(byte[] bytes)
+        /// <summary>Read destination Ip
+        /// Read Destination Ip From byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        private static int[] ReadDestination(IList<byte> bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
             var j = 6;
@@ -55,7 +71,12 @@ namespace PcapdotNET.Protocols.TCP
             return destinationIp;
         }
 
-        private int[] ReadSource(byte[] bytes)
+        /// <summary>Read source Ip
+        /// Read Source Ip from byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        private static int[] ReadSource(IList<byte> bytes)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];
             var j = 2;
