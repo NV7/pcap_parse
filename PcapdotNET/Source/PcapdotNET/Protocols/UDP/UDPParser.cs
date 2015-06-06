@@ -16,17 +16,17 @@ namespace PcapdotNET.Protocols.UDP
         {
             _frameLength = frameLength;
         }
-        
+
         public UDPFrame GetUdpPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
             var sourceIp = ReadSource(bytes);
-            
+
             var destinationIp = ReadDestination(bytes);
 
             // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
             var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
-            
+
             int j = 10;
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
@@ -67,7 +67,7 @@ namespace PcapdotNET.Protocols.UDP
         }
 
 
-        
+
         /// <summary>Return UPD Frame 
         ///  Get this dump of processed frames
         /// </summary>
@@ -77,7 +77,7 @@ namespace PcapdotNET.Protocols.UDP
             return (UDPFrame)_udpFrameArray[0];
         }
 
-        
+
         /// <summary>Use in LightInject
         /// This method refers to IoC Container
         /// </summary>

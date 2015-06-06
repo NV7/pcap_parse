@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using PcapdotNET.Protocols;
+using PcapdotNET.Protocols.TCP;
 using PcapdotNET.Protocols.UDP;
 
 namespace Tests
@@ -11,23 +12,16 @@ namespace Tests
         [Test]
         public void TestGetDestinationIP()
         {
-            //var container = new LightInject.ServiceContainer();
-            //container.Register<IUDPParser, UdpParser>();
 
-            //var frame = container.Create<UdpParser>();
-            //frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
+            var test = new ProtocolChecker();
 
-            var frame = new ProtocolChecker(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tpncp_udp.pcap");
 
-            frame.ReadFile();
-            
-
-            //ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_protocol.pcap");
-
+            Console.WriteLine(test.GetUdpFrameList().Count);
 
             var testFrame = new UDPFrame();
-            int[] destIp = {10, 0, 0, 1};
-            int[] sourceIp = {192, 168, 0, 143};
+            int[] destIp = { 10, 0, 0, 1 };
+            int[] sourceIp = { 192, 168, 0, 143 };
 
 
             testFrame.SetDestinationIp(destIp);
@@ -37,12 +31,7 @@ namespace Tests
             testFrame.SetSorcePort(3655);
             testFrame.SetSourceIp(sourceIp);
 
-            foreach (var currentFrame in frame.FrameList)
-            {
-                Console.WriteLine(currentFrame);
-            }
-
-            //Assert.True(testFrame.Equals(frame.GetUdpFrameList()));
+            // Assert.True(testFrame.Equals(frame.GetUdpFrame()));
         }
     }
 }

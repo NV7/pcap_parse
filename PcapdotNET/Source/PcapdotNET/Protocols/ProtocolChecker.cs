@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Dynamic;
 using System.IO;
 using PcapdotNET.Protocols.UDP;
 
@@ -7,35 +6,27 @@ namespace PcapdotNET.Protocols
 {
     public class ProtocolChecker
     {
-        private string _foundProtocolName;
-        private string _fileName;
-
-        public ProtocolChecker(string fileName)
-        {
-            _fileName = fileName;
-        }
-        
         readonly ArrayList _udpFrameList = new ArrayList();
 
-        readonly ArrayList _frameArray = new ArrayList();
+        readonly ArrayList _tcpFrameList = new ArrayList();
 
-        public ArrayList FrameList
-        {
-            get { return _udpFrameList; }
-        }
-       
-        
+        readonly ArrayList _frameArray = new ArrayList();
 
         public ArrayList GetUdpFrameList()
         {
             return _udpFrameList;
         }
 
-        public void ReadFile()
+        public ArrayList GetTcpFrameList()
         {
-            if (File.Exists(_fileName))
+            return _tcpFrameList;
+        }
+
+        public void ReadFile(string fileName)
+        {
+            if (File.Exists(fileName))
             {
-                var reader = new BinaryReader(File.Open(_fileName, FileMode.Open));
+                var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
                 // Missed header of file
                 reader.ReadBytes(PacketFields.PcapHeaderLength);
 
@@ -58,25 +49,35 @@ namespace PcapdotNET.Protocols
 
                     // Read Protocol Identificator
                     uint protocolNumber = reader.ReadByte(); //1
-                   // byte[] dataArray = new byte[(int)(frameLength - 40)];
+                    // byte[] dataArray = new byte[(int)(frameLength - 40)];
 
                     switch (protocolNumber)
                     {
                         case 6:
-                        {
+                            {
+                                var dataArray = reader.ReadBytes(14);
+                                UdpParser temp = new UdpParser();
+                                _frameArray.Add(temp.GetUdpPacket(dataArray));
+                                _tcpFrameList.Add(temp.GetUdpPacket(dataArray));
+                                reader.ReadBytes((int)(frameLength - PacketFields.EndingBytes));
+                                break;
+                            }
 
-                            byte[] dataArray = reader.ReadBytes((int)(frameLength - 40));
-                            UdpParser temp = new UdpParser(); 
-                            _frameArray.Add(temp.GetUdpPacket(dataArray));
-                            _udpFrameList.Add(temp.GetUdpPacket(dataArray));
-                            break;
-                        }
+                        case 17:
+                            {
+                                var dataArray = reader.ReadBytes(14);
+                                UdpParser temp = new UdpParser();
+                                _frameArray.Add(temp.GetUdpPacket(dataArray));
+                                _udpFrameList.Add(temp.GetUdpPacket(dataArray));
+                                reader.ReadBytes((int)(frameLength - PacketFields.EndingBytes));
+                                break;
+                            }
 
                         default:
-                        {
-                            var result = "WTF!!!";
-                            break;
-                        }
+                            {
+                                reader.ReadBytes((int)(frameLength - PacketFields.EndingBytes + 14));
+                                break;
+                            }
                     }
                 }
             }

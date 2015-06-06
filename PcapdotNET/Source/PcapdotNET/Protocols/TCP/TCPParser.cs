@@ -10,116 +10,62 @@ namespace PcapdotNET.Protocols.TCP
     public class TCPParser : ITCPParser
     {
         private readonly ArrayList _tcpFrameArray = new ArrayList();
-        
-        public void ReadFile(string fileName)
+
+        private uint _frameLength;
+        public void SetFrameLenght(uint frameLength)
         {
-            if (File.Exists(fileName))
-            {
-                var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
-
-                try
-                {
-                    // Missed header of file
-                    reader.ReadBytes(PacketFields.PcapHeaderLength);
-
-                    while (reader.BaseStream.Position < reader.BaseStream.Length)
-                    {
-                        // Missed frame header
-                        reader.ReadBytes(PacketFields.FrameHeaderLength);
-
-                        // Read amount of bytes in this frame
-                        uint frameLength = reader.ReadUInt32();
-
-                        reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress);
-
-                        // skip Ethernet info
-                        reader.ReadBytes(PacketFields.AmountOfEthernetParts);
-                        reader.ReadBytes(PacketFields.AmountOfEthernetParts);
-
-                        // Missed
-                        reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId);
-
-                        // Read Protocol Identificator
-                        uint protocolNumber = reader.ReadByte();
-
-                        // Missed
-                        reader.ReadByte();
-                        reader.ReadByte();
-
-                        // Fill Source & Destination IP
-                        var SourceIP = ReadSourceIp(ref reader);
-                        ;
-                        var DestinationIP = ReadDestinationIp(ref reader);
-
-                        // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
-                        var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
-
-                        for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i)
-                            draftPort[i] = reader.ReadByte();
-
-                        uint sourcePort = draftPort[0]*PacketFields.Offset + draftPort[1];
-
-                        for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i)
-                            draftPort[i] = reader.ReadByte();
-
-                        uint destinationPort = draftPort[0]*PacketFields.Offset + draftPort[1];
-
-                        // Fill current TCPandUDPFrame
-                        var T = new TCPFrame(DestinationIP, destinationPort, frameLength, SourceIP, sourcePort,
-                            protocolNumber);
-
-                        // Pull current TCPandUDPFrame to dump
-                        _tcpFrameArray.Add(T);
-
-                        // Miss ending of pcap-file, witch depends on FrameLength
-                        reader.ReadBytes((int) (frameLength - PacketFields.EndingBytes));
-                    }
-                }
-
-                catch (Exception)
-                {
-                    var exception = new MyException("End of File!");
-                    throw (exception);
-                }
-
-                reader.Close();
-            }
-            else
-            {
-                var exception = new MyException("File not found!");
-                throw (exception);
-             }
+            _frameLength = frameLength;
         }
 
-        /// <summary>Read source Ip
-        /// This method read source Ip from .pcap file
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        internal int[] ReadSourceIp(ref System.IO.BinaryReader reader)
+        public TCPFrame GetTCPPacket(byte[] bytes)
         {
-            var SourceIP = new int[PacketFields.AmountOfIpParts];
+            // Fill Source & Destination IP
+            var sourceIp = ReadSource(bytes);
 
-            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
-                SourceIP[i] = reader.ReadByte();
+            var destinationIp = ReadDestination(bytes);
 
-            return SourceIP;
+            // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
+            var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
+
+            int j = 10;
+            for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
+                draftPort[i] = bytes[j];
+
+            uint sourcePort = draftPort[0] * PacketFields.Offset + draftPort[1];
+
+            for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
+                draftPort[i] = bytes[j];
+
+            uint destinationPort = draftPort[0] * PacketFields.Offset + draftPort[1];
+
+            var T = new TCPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
+                            17);
+
+            return T;
         }
 
-        /// <summary>Read source Ip
-        /// This method read destination Ip from .pcap file
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        internal int[] ReadDestinationIp(ref System.IO.BinaryReader reader)
+        private int[] ReadDestination(byte[] bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
+            var j = 6;
 
-            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i)
-                destinationIp[i] = reader.ReadByte();
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
+                destinationIp[i] = bytes[j];
 
             return destinationIp;
         }
+
+        private int[] ReadSource(byte[] bytes)
+        {
+            var sourceIp = new int[PacketFields.AmountOfIpParts];
+            var j = 2;
+
+            for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
+                sourceIp[i] = bytes[j];
+
+            return sourceIp;
+        }
+
 
         /// <summary>Return TCP Frame
         /// This method return object TCPFarme
