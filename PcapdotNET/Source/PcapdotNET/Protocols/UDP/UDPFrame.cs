@@ -54,7 +54,8 @@
         /// <returns></returns>
         public string GetProtocolName()
         {
-            return TableProtocols.GetProtocol(_protocolNumber);
+            //return TableProtocols.GetProtocol(_protocolNumber);
+            return "UDP";
         }
 
         /// <summary>SetProtocolNumber

@@ -83,7 +83,8 @@
         /// <returns></returns>
         public string GetProtocolName()
         {
-            return TableProtocols.GetProtocol(_protocolNumber);
+            //return TableProtocols.GetProtocol(_protocolNumber);
+            return "TCP";
         }
 
         /// <summary>Set Protocol Number

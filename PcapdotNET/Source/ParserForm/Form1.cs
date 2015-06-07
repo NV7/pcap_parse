@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Windows.Forms;
 using PcapdotNET.Protocols;
+using PcapdotNET.Protocols.Ethernet;
 using PcapdotNET.Protocols.ICMP;
+using PcapdotNET.Protocols.TCP;
+using PcapdotNET.Protocols.UDP;
 
 namespace ParserForm
 {
@@ -54,14 +58,62 @@ namespace ParserForm
             for (var i = 0; i < _frame.GetFrameList().Count; ++i)
             {
                 dataGridView1.Rows.Add();
-                var _currentframe = (ICMPFrame) _frame.GetFrameList()[i];
-                dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
-                dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
-                dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
-                dataGridView1.Rows[i].Cells["sourceportcolumn"].Value = _currentframe.GetSourcePort();
-                dataGridView1.Rows[i].Cells["destinationipcolumn"].Value = _currentframe.GetDestinationIp();
-                dataGridView1.Rows[i].Cells["destinationport"].Value = _currentframe.GetDestinationPort();
-                dataGridView1.Rows[i].Cells["lengthcolumn"].Value = _currentframe.GetFrameLength();
+                ArrayList LengthOfEachFrame = _frame.GetFrameLengthSequence();
+                
+
+                switch ((uint)_frame.GetProtocolsSequence()[i])
+                {
+                    case 1:
+                        {
+                            var _currentframe = (ICMPFrame)_frame.GetFrameList()[i];
+                            dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
+                            dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
+                            dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
+                            dataGridView1.Rows[i].Cells["sourceportcolumn"].Value = _currentframe.GetSourcePort();
+                            dataGridView1.Rows[i].Cells["destinationipcolumn"].Value = _currentframe.GetDestinationIp();
+                            dataGridView1.Rows[i].Cells["destinationport"].Value = _currentframe.GetDestinationPort();
+                            dataGridView1.Rows[i].Cells["lengthcolumn"].Value = LengthOfEachFrame[i];
+                            break;
+                        }
+
+                    case 6:
+                        {
+                            var _currentframe = (TCPFrame)_frame.GetFrameList()[i];
+                            dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
+                            dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
+                            dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
+                            dataGridView1.Rows[i].Cells["sourceportcolumn"].Value = _currentframe.GetSourcePort();
+                            dataGridView1.Rows[i].Cells["destinationipcolumn"].Value = _currentframe.GetDestinationIp();
+                            dataGridView1.Rows[i].Cells["destinationport"].Value = _currentframe.GetDestinationPort();
+                            dataGridView1.Rows[i].Cells["lengthcolumn"].Value = LengthOfEachFrame[i];
+                            break;
+                        }
+
+                    case 17:
+                        {
+                            var _currentframe = (UDPFrame)_frame.GetFrameList()[i];
+                            dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
+                            dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
+                            dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
+                            dataGridView1.Rows[i].Cells["sourceportcolumn"].Value = _currentframe.GetSourcePort();
+                            dataGridView1.Rows[i].Cells["destinationipcolumn"].Value = _currentframe.GetDestinationIp();
+                            dataGridView1.Rows[i].Cells["destinationport"].Value = _currentframe.GetDestinationPort();
+                            dataGridView1.Rows[i].Cells["lengthcolumn"].Value = LengthOfEachFrame[i];
+                            break;
+                        }
+
+                    default:
+                        {
+                            dataGridView1.Rows[i].Cells["numbercolumn"].Value = "UNSUPP";
+                            dataGridView1.Rows[i].Cells["protocolcolumn"].Value = "UNSUPP";
+                            dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = "UNSUPP";
+                            dataGridView1.Rows[i].Cells["sourceportcolumn"].Value = "UNSUPP";
+                            dataGridView1.Rows[i].Cells["destinationipcolumn"].Value = "UNSUPP";
+                            dataGridView1.Rows[i].Cells["destinationport"].Value = "UNSUPP";
+                            dataGridView1.Rows[i].Cells["lengthcolumn"].Value = "UNSUPP";
+                            break;
+                        }
+                }
             }
         }
     }

@@ -91,8 +91,8 @@
         /// <returns></returns>
         public string GetProtocolName()
         {
-            return TableProtocols.GetProtocol(_protocolNumber);
-            //return "ICMP";
+            //return TableProtocols.GetProtocol(_protocolNumber);
+            return "ICMP";
         }
 
         /// <summary>Number protocol

@@ -21,6 +21,10 @@ namespace PcapdotNET.Protocols
 
         readonly ArrayList _EthernetFrameList = new ArrayList();
 
+        private ArrayList _ProtocolSequence = new ArrayList();
+        
+        private ArrayList _FrameLengthSequence = new ArrayList();
+
         public ArrayList GetEthernetFrameList()
         {
             return _EthernetFrameList;
@@ -44,6 +48,16 @@ namespace PcapdotNET.Protocols
         public ArrayList GetFrameList()
         {
             return _frameArray;
+        }
+
+        public ArrayList GetProtocolsSequence()
+        {
+            return _ProtocolSequence;
+        }
+
+        public ArrayList GetFrameLengthSequence()
+        {
+            return _FrameLengthSequence;
         }
 
         /// <summary>Open and read pcap file
@@ -71,6 +85,7 @@ namespace PcapdotNET.Protocols
 
                     // Read amount of bytes in this frame
                     uint frameLength = reader.ReadUInt32(); //4
+                    _FrameLengthSequence.Add(frameLength);
 
                     reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress); //4
 
@@ -83,6 +98,7 @@ namespace PcapdotNET.Protocols
 
                     // Read Protocol Identificator
                     uint protocolNumber = reader.ReadByte(); //1
+                    _ProtocolSequence.Add(protocolNumber);
                     // byte[] dataArray = new byte[(int)(frameLength - 40)];
 
                     var dataArray = reader.ReadBytes(14);
@@ -100,9 +116,9 @@ namespace PcapdotNET.Protocols
 
                         case 6:
                         {
-                            var frame = container.Create<TCPParser>();
-                            _frameArray.Add(frame.GetTCPPacket(dataArray));
-                            _tcpFrameList.Add(frame.GetTCPPacket(dataArray));
+                                var frame = container.Create<TCPParser>();
+                                _frameArray.Add(frame.GetTCPPacket(dataArray));
+                                _tcpFrameList.Add(frame.GetTCPPacket(dataArray));
 
                             break;
                             }
@@ -128,9 +144,8 @@ namespace PcapdotNET.Protocols
                     }
                     reader.ReadBytes((int)(frameLength - PacketFields.EndingBytes));
                 }
+                reader.Close();
             }
-
-
         }
     }
 }
