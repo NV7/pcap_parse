@@ -25,44 +25,44 @@ namespace PcapdotNET.Protocols.UDP
         /// <summary>Get UDP protocols
         /// Get information about ICMP protocol from byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[] bytes to read</param>
+        /// <returns>UDPFrame formed udpframe</returns>
         public UDPFrame GetPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
-            var sourceIp = ReadSource(bytes);
+            var sourceIp = ReadSourceIP(bytes);
 
-            var destinationIp = ReadDestination(bytes);
+            var destinationIp = ReadDestinationIP(bytes);
 
             // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
             var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
 
-            int j = 10;
+            int j = PacketFields.OffsetForPorts;
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
 
-            uint sourcePort = draftPort[0] * PacketFields.Offset + draftPort[1];
+            uint sourcePort = draftPort[PacketFields.FirstBit] * PacketFields.Offset + draftPort[PacketFields.SecondBit];
 
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
 
             uint destinationPort = draftPort[0] * PacketFields.Offset + draftPort[1];
 
-            var T = new UDPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
+            var NewUDPFrame = new UDPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
                             17);
 
-            return T;
+            return NewUDPFrame;
         }
 
         /// <summary>Read destination Ip
         /// Read Destination Ip From byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        private static int[] ReadDestination(IList<byte> bytes)
+        /// <param name="bytes">IList"byte" bytes to read</param>
+        /// <returns>int[] Dest ip</returns>
+        private static int[] ReadDestinationIP(IList<byte> bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
-            var j = 6;
+            var j = PacketFields.ReadDestinationIPBitsOffset;
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
                 destinationIp[i] = bytes[j];
@@ -73,26 +73,17 @@ namespace PcapdotNET.Protocols.UDP
         /// <summary>Read source Ip
         /// Read Source Ip from byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        private static int[] ReadSource(IList<byte> bytes)
+        /// <param name="bytes">IList"byte" bytes to read</param>
+        /// <returns>int[] Source IP</returns>
+        private static int[] ReadSourceIP(IList<byte> bytes)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];
-            var j = 2;
+            var j = PacketFields.ReadSourceIPBitsOffset;
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
                 sourceIp[i] = bytes[j];
 
             return sourceIp;
-        }
-
-        /// <summary>Return UPD Frame 
-        ///  Get this dump of processed frames
-        /// </summary>
-        /// <returns></returns>
-        public UDPFrame GetUdpFrame()
-        {
-            return (UDPFrame)_udpFrameArray[0];
         }
 
         /// <summary>Use in LightInject

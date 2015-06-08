@@ -20,8 +20,8 @@ namespace PcapdotNET.Protocols
         {
             get
             {
-                if (fileName == null) 
-                    return base.Message;
+                if (fileName == "") 
+                    return "Укажите название файла";
                 else
                     return "В файле " + FileName + " нет pcap файлов. Его невозможно обработать";
             }

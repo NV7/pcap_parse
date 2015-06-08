@@ -7,16 +7,18 @@ namespace PcapdotNET.Protocols.ICMP
     /// <summary> Class ICMP Parser
     /// Class which read and get helpful information from .pcap file.
     /// </summary>
-    public class ICMPParser : iICMPParser,IProtocolChecker<ICMPFrame>
+    public class ICMPParser : iICMPParser, IProtocolChecker<ICMPFrame>
     {
+        // List, that contains all icmpframes
         private readonly ArrayList _icmpFrameArray = new ArrayList();
 
+        // Length of frame
         private uint _frameLength;
 
         /// <summary>Set frame length
         /// Set frame Length for frame
         /// </summary>
-        /// <param name="frameLength"></param>
+        /// <param name="frameLength">uint length of frame</param>
         public void SerFrameLenght(uint frameLength)
         {
             _frameLength = frameLength;
@@ -25,29 +27,30 @@ namespace PcapdotNET.Protocols.ICMP
         /// <summary>Get ICMP protocols
         /// Get information about ICMP protocol from byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[] bytes to operate</param>
+        /// <returns>ICMPFrame parsed frame</returns>
         public ICMPFrame GetPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
             var sourceIp = ReadSourceIp(bytes);
-
             var destinationIp = ReadDestinationIp(bytes);
 
             // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
             var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
 
-            var j = 10;
+
+            var j = PacketFields.OffsetForPorts;
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
 
-            uint sourcePort = draftPort[0] * PacketFields.Offset + draftPort[1];
+            uint sourcePort = draftPort[PacketFields.FirstBit] * PacketFields.Offset + draftPort[PacketFields.SecondBit];
 
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
 
-            uint destinationPort = draftPort[0] * PacketFields.Offset + draftPort[1];
+            uint destinationPort = draftPort[PacketFields.FirstBit] * PacketFields.Offset + draftPort[1];
 
+            // Here 17 is protocol number (ICMP)
             var icmpFrame = new ICMPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
                             17);
 
@@ -62,7 +65,7 @@ namespace PcapdotNET.Protocols.ICMP
         private static int[] ReadDestinationIp(IList<byte> bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
-            var j = 6;
+            var j = PacketFields.ReadDestinationIPBitsOffset;
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
                 destinationIp[i] = bytes[j];
@@ -78,7 +81,7 @@ namespace PcapdotNET.Protocols.ICMP
         private static int[] ReadSourceIp(IList<byte> bytes)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];
-            var j = 2;
+            var j = PacketFields.ReadSourceIPBitsOffset;
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
                 sourceIp[i] = bytes[j];
@@ -92,7 +95,7 @@ namespace PcapdotNET.Protocols.ICMP
         /// <returns></returns>
         public ICMPFrame GetIcmpFrame()
         {
-            return (ICMPFrame)_icmpFrameArray[0];
+            return (ICMPFrame)_icmpFrameArray[PacketFields.FirstBit];
         }
 
         /// <summary>Return ICMP Frame List

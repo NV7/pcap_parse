@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PcapdotNET.Protocols;
 using PcapdotNET.Protocols.TCP;
 
@@ -9,34 +8,74 @@ namespace Tests
     public class TestFrameParse
     {
         [Test]
-        public void TcpProtocolTest()
+        public void TcpProtocolAmountOfFramesTest()
         {
-            //var container = new LightInject.ServiceContainer();  
-            //container.Register<ITCPParser,TCPParser>();
-
-            //var frame = container.Create<TCPParser>();
-
-            //frame.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
-
             var test = new ProtocolChecker();
 
             test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
 
-            Console.WriteLine(test.ProtocolList.GetTcpFrameList().Count);
-
-            int[] destIp = { 127, 0, 0, 1 };
-            int[] sourceIp = { 127, 0, 0, 1 };
-
-            var testFrame = new TCPFrame();
-            testFrame.SetDestinationIp(destIp);
-            testFrame.SetDestinationPort(5353);
-            testFrame.SetFrameLenght(74);
-            testFrame.SetProtocolNumber(6);
-            testFrame.SetSourcePort(32921);
-            testFrame.SetSourceIp(sourceIp);
-
-
-            //Assert.True(testFrame.Equals(frame.GetTCPFrame()));
+            Assert.AreEqual(test.ProtocolList.GetTcpFrameList().Count, 7);
         }
+
+        [Test]
+        public void TcpProtocolNameTest()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
+
+            var _currentframe = (TCPFrame)test.ProtocolList.GetFrameList()[0];
+
+            Assert.AreEqual(_currentframe.GetProtocolName(), "TCP");
+        }
+
+        [Test]
+        public void TcpProtocolSourceIPTest()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
+
+            var _currentframe = (TCPFrame)test.ProtocolList.GetFrameList()[0];
+
+            Assert.AreEqual(_currentframe.GetSourceIp(), "127.0.0.1");
+        }
+
+        [Test]
+        public void TcpProtocolDestIPTest()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
+
+            var _currentframe = (TCPFrame)test.ProtocolList.GetFrameList()[0];
+
+            Assert.AreEqual(_currentframe.GetDestinationIp(), "127.0.0.1");
+        }
+
+        [Test]
+        public void TcpProtocolDestPortTest()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
+
+            var _currentframe = (TCPFrame)test.ProtocolList.GetFrameList()[0];
+
+            Assert.AreEqual(_currentframe.GetDestinationPort(), "5353");
+        }
+
+        [Test]
+        public void TcpProtocolSrcPortTest()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
+
+            var _currentframe = (TCPFrame)test.ProtocolList.GetFrameList()[0];
+
+            Assert.AreEqual(_currentframe.GetSourcePort(), "32921");
+        }
+
     }
 }

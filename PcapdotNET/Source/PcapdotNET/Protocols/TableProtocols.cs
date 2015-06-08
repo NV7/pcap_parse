@@ -146,9 +146,9 @@
         /// <summary>Return name of protocol
         /// Return name of protocol on index
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public static string GetProtocol(uint index)
+        /// <param name="index">uint number of protocol</param>
+        /// <returns>string name of protocol</returns>
+        public string GetProtocol(uint index)
         {
            return _tableProtocols[index];
         }

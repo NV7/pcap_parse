@@ -17,7 +17,7 @@ namespace PcapdotNET.Protocols.TCP
         /// <summary>Set frame length
         /// Set frame Length for frame
         /// </summary>
-        /// <param name="frameLength"></param>
+        /// <param name="frameLength">uint length of frame</param>
         public void SetFrameLenght(uint frameLength)
         {
             _frameLength = frameLength;
@@ -26,44 +26,43 @@ namespace PcapdotNET.Protocols.TCP
         /// <summary>Get TCP protocols
         /// Get information about TCP protocol from byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[] bytes to operate</param>
+        /// <returns>TCPFrame formed TCP frame</returns>
         public TCPFrame GetPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
-            var sourceIp = ReadSource(bytes);
-
-            var destinationIp = ReadDestination(bytes);
+            var sourceIp = ReadSourceIP(bytes);
+            var destinationIp = ReadDestinationIP(bytes);
 
             // ReadUInt16 reads in another endian, so we have to use this trick ( multiply 256 is the same for 8 bit offset to the left)
             var draftPort = new uint[PacketFields.AmountOfBytesInPortNumber];
 
-            int j = 10;
+            int j = PacketFields.OffsetForPorts;
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
 
-            uint sourcePort = draftPort[0] * PacketFields.Offset + draftPort[1];
+            uint sourcePort = draftPort[PacketFields.FirstBit] * PacketFields.Offset + draftPort[PacketFields.SecondBit];
 
             for (int i = 0; i < PacketFields.AmountOfBytesInPortNumber; ++i, ++j)
                 draftPort[i] = bytes[j];
 
             uint destinationPort = draftPort[0] * PacketFields.Offset + draftPort[1];
 
-            var T = new TCPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
+            var NewTCPFrame = new TCPFrame(destinationIp, destinationPort, _frameLength, sourceIp, sourcePort,
                             17);
 
-            return T;
+            return NewTCPFrame;
         }
 
         /// <summary>Read destination Ip
         /// Read Destination Ip From byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        private static int[] ReadDestination(IList<byte> bytes)
+        /// <param name="bytes">IList"byte" byte - bytes to read</param>
+        /// <returns>int[] byte of DestinationIp</returns>
+        private static int[] ReadDestinationIP(IList<byte> bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
-            var j = 6;
+            var j = PacketFields.ReadDestinationIPBitsOffset;
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
                 destinationIp[i] = bytes[j];
@@ -74,27 +73,17 @@ namespace PcapdotNET.Protocols.TCP
         /// <summary>Read source Ip
         /// Read Source Ip from byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        private static int[] ReadSource(IList<byte> bytes)
+        /// <param name="bytes">IList"byte" byte - bytes to read</param>
+        /// <returns>int[] Source IP</returns>
+        private static int[] ReadSourceIP(IList<byte> bytes)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];
-            var j = 2;
+            var j = PacketFields.ReadSourceIPBitsOffset;
 
             for (int i = 0; i < PacketFields.AmountOfIpParts; ++i, ++j)
                 sourceIp[i] = bytes[j];
 
             return sourceIp;
-        }
-
-
-        /// <summary>Return TCP Frame
-        /// This method return object TCPFarme
-        /// </summary>
-        /// <returns></returns>
-        public TCPFrame GetTCPFrame()
-        {
-            return (TCPFrame)_tcpFrameArray[0];
         }
 
         /// <summary>Return TCP Frame List

@@ -62,6 +62,7 @@
     <Reference Include="System.ServiceModel.Activation" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonTest.cs" />
     <Compile Include="EthernetTest.cs" />
     <Compile Include="ICMPTest.cs" />
     <Compile Include="TCPTests.cs" />

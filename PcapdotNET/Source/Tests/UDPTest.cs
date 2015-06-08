@@ -1,7 +1,5 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PcapdotNET.Protocols;
-using PcapdotNET.Protocols.TCP;
 using PcapdotNET.Protocols.UDP;
 
 namespace Tests
@@ -10,28 +8,49 @@ namespace Tests
     public class UDPTestFarme
     {
         [Test]
-        public void TestGetDestinationIP()
+        public void UdpProtocolAmountOfFramesTest()
         {
-
             var test = new ProtocolChecker();
 
-            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tpncp_udp.pcap");
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_procol.pcap");
 
-            Console.WriteLine(test.ProtocolList.GetUdpFrameList().Count);
+            Assert.AreEqual(test.ProtocolList.GetUdpFrameList().Count, 6);
+        }
 
-            var testFrame = new UDPFrame();
-            int[] destIp = { 10, 0, 0, 1 };
-            int[] sourceIp = { 192, 168, 0, 143 };
+        [Test]
+        public void UdpProtocolCheckDestinationIptest()
+        {
+            var test = new ProtocolChecker();
 
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_procol.pcap");
 
-            testFrame.SetDestinationIp(destIp);
-            testFrame.SetDestinationPort(80);
-            testFrame.SetLenght(54);
-            testFrame.SetProtocolNumber(6);
-            testFrame.SetSorcePort(3655);
-            testFrame.SetSourceIp(sourceIp);
+            var _currentframe = (UDPFrame) test.ProtocolList.GetFrameList()[1];
 
-            // Assert.True(testFrame.Equals(frame.GetUdpFrame()));
+            Assert.AreEqual(_currentframe.GetDestinationIp(), "192.168.0.1");
+        }
+
+        [Test]
+        public void UdpProtocolCheckSourceIptest()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_procol.pcap");
+
+            var _currentframe = (UDPFrame) test.ProtocolList.GetFrameList()[1];
+
+            Assert.AreEqual(_currentframe.GetSourceIp(), "192.168.0.143");
+        }
+
+        [Test]
+        public void UdpProtocolProtocolName()
+        {
+            var test = new ProtocolChecker();
+
+            test.ReadFile(@"..\..\..\Source\Tests\Testfiles\udp_procol.pcap");
+
+            var _currentframe = (UDPFrame) test.ProtocolList.GetFrameList()[1];
+
+            Assert.AreEqual(_currentframe.GetProtocolName(), "UDP");
         }
     }
 }

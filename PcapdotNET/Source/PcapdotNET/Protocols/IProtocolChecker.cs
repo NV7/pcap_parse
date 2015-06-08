@@ -1,8 +1,6 @@
-﻿using PcapdotNET.Protocols.Ethernet;
-using PcapdotNET.Protocols.ICMP;
-
-namespace PcapdotNET.Protocols
+﻿namespace PcapdotNET.Protocols
 {
+    // Unique interface, that defines the way to operate packets
     public interface IProtocolChecker<out T>
     {
         T GetPacket(byte[] dataArray);

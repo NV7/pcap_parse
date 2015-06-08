@@ -15,8 +15,8 @@ namespace PcapdotNET.Protocols.Ethernet
         /// <summary>Read need information about Ethernet Protocol
         /// Get byte[] with data 
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[] - array, that contains bytes for operating</param>
+        /// <returns>EthernetFrame frame, that was read</returns>
         public EthernetFrame GetPacket(byte[] bytes)
         {
         
@@ -36,8 +36,8 @@ namespace PcapdotNET.Protocols.Ethernet
         /// <summary>Read destination Ip
         /// Read Destination Ip From byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[] - array, that contains bytes for operating</param>
+        /// <returns>int[] - destination IP</returns>
         private static int[] ReadDestinationIp(byte[] bytes)
         {
             var destinationIp = new int[PacketFields.AmountOfIpParts];
@@ -52,8 +52,8 @@ namespace PcapdotNET.Protocols.Ethernet
         /// <summary>Read source Ip
         /// Read Source Ip from byte[]
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[] - array, that contains bytes for operating</param>
+        /// <returns>int[] - source IP</returns>
         private static int[] ReadSourceIp(byte[] bytes)
         {
             var sourceIp = new int[PacketFields.AmountOfIpParts];

@@ -1,4 +1,7 @@
-﻿namespace PcapdotNET.Protocols
+﻿using System.Collections;
+using System.Net.NetworkInformation;
+
+namespace PcapdotNET.Protocols
 {
     /// <summary>Class consist from information about const in our project
     /// Here we describe all constants, that we use in parsing pcap file
@@ -32,5 +35,21 @@
 
         // Amount of bytes, that we miss in the end of current frame
         public static readonly int EndingBytes = 38;
+
+        // Offset in filling Ports
+        public static readonly int OffsetForPorts = 10;
+
+        // Use this constants only because of the way ReadUInt16 written
+        public static readonly int FirstBit = 0;
+        public static readonly int SecondBit = 1;
+
+        // Offset in reading destination IP bits offset
+        public static readonly int ReadDestinationIPBitsOffset = 6;
+
+        // Offset in reading source IP bits offset
+        public static readonly int ReadSourceIPBitsOffset = 2;
+
+        // Lenth of DataArray
+        public static readonly int DataArrayBytes = 14;
     }
 }

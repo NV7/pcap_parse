@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using PcapdotNET.Protocols.Ethernet;
 using PcapdotNET.Protocols.ICMP;
@@ -9,8 +10,14 @@ namespace PcapdotNET.Protocols
 {
     public class ProtocolChecker
     {
+        /// <summary>
+        /// array, that contains protocols
+        /// </summary>
         private readonly ProtocolList _protocolList = new ProtocolList();
 
+        /// <summary>
+        /// Getter, that returns protocollist
+        /// </summary>
         public ProtocolList ProtocolList
         {
             get { return _protocolList; }
@@ -19,10 +26,10 @@ namespace PcapdotNET.Protocols
         /// <summary>Open and read pcap file
         /// Read information from pcap file
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">string Path to file</param>
         public void ReadFile(string fileName)
         {
-            if (!File.Exists(fileName)) return;
+            if (!File.Exists(fileName)) throw new ContentException(fileName);
             var container = new LightInject.ServiceContainer();
             container.Register<IProtocolChecker<EthernetFrame>, EthernetParser>("Ethernet");
             container.Register<IProtocolChecker<ICMPFrame>, ICMPParser>("ICMP");
@@ -56,13 +63,14 @@ namespace PcapdotNET.Protocols
                 ProtocolList.ProtocolSequence.Add(protocolNumber);
                 // byte[] dataArray = new byte[(int)(frameLength - 40)];
 
-                var dataArray = reader.ReadBytes(14);
+                var dataArray = reader.ReadBytes(PacketFields.DataArrayBytes);
 
+                // Here 1 for ICMP, 6 for TCP and 17 for UDP
                 switch (protocolNumber)
                 {
                     case 1:
                     {
-                        var instance = container .GetInstance<IProtocolChecker<ICMPFrame>>("ICMP");
+                        var instance = container.GetInstance<IProtocolChecker<ICMPFrame>>("ICMP");
                         ProtocolList.FrameArray.Add(instance.GetPacket(dataArray));
                         ProtocolList.IcmpFrameList.Add(instance.GetPacket(dataArray));
 

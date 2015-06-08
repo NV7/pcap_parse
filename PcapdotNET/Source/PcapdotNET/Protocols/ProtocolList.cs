@@ -2,6 +2,7 @@ using System.Collections;
 
 namespace PcapdotNET.Protocols
 {
+    // Lists for protocols
     public class ProtocolList
     {
         public readonly ArrayList UdpFrameList = new ArrayList();
