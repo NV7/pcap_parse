@@ -7,7 +7,7 @@ namespace PcapdotNET.Protocols.Ethernet
     /// <summary>Parser Ethernet protocol
     /// This class read from .pcap file information about Ethernet protocol.
     /// </summary>
-    public class EthernetParser : IEthernetParser
+    public class EthernetParser : IEthernetParser, IProtocolChecker<EthernetFrame>
     {
         // Put here all info, collected from file
         private readonly ArrayList _ethernetFrameArray = new ArrayList();
@@ -17,7 +17,7 @@ namespace PcapdotNET.Protocols.Ethernet
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public EthernetFrame GetEthernetPacket(byte[] bytes)
+        public EthernetFrame GetPacket(byte[] bytes)
         {
         
                         // Get Ethernet info
@@ -25,7 +25,7 @@ namespace PcapdotNET.Protocols.Ethernet
 
                         var ethernetSourceIp = ReadSourceIp(bytes);
 
-                        var ethernetFrame = new EthernetFrame(ethernetDestinationIp, ethernetSourceIp);
+                        EthernetFrame ethernetFrame = new EthernetFrame(ethernetDestinationIp, ethernetSourceIp);
 
                         // Pull current Ethernet frame to dump
                         _ethernetFrameArray.Add(ethernetFrame);

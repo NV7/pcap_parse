@@ -8,7 +8,7 @@ namespace PcapdotNET.Protocols.TCP
     /// <summary>class TCP
     /// This class parse .pcap file and read TCP packets 
     /// </summary>
-    public class TCPParser : ITCPParser
+    public class TCPParser : ITCPParser, IProtocolChecker<TCPFrame>
     {
         private readonly ArrayList _tcpFrameArray = new ArrayList();
 
@@ -28,7 +28,7 @@ namespace PcapdotNET.Protocols.TCP
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public TCPFrame GetTCPPacket(byte[] bytes)
+        public TCPFrame GetPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
             var sourceIp = ReadSource(bytes);

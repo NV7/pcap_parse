@@ -22,7 +22,7 @@ namespace Tests
 
             test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tcp_protocol.pcap");
 
-            Console.WriteLine(test.GetTcpFrameList().Count);
+            Console.WriteLine(test.ProtocolList.GetTcpFrameList().Count);
 
             int[] destIp = { 127, 0, 0, 1 };
             int[] sourceIp = { 127, 0, 0, 1 };

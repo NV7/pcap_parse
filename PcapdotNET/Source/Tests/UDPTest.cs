@@ -17,7 +17,7 @@ namespace Tests
 
             test.ReadFile(@"..\..\..\Source\Tests\Testfiles\tpncp_udp.pcap");
 
-            Console.WriteLine(test.GetUdpFrameList().Count);
+            Console.WriteLine(test.ProtocolList.GetUdpFrameList().Count);
 
             var testFrame = new UDPFrame();
             int[] destIp = { 10, 0, 0, 1 };

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.IO;
 using PcapdotNET.Protocols.Ethernet;
 using PcapdotNET.Protocols.ICMP;
@@ -10,54 +9,11 @@ namespace PcapdotNET.Protocols
 {
     public class ProtocolChecker
     {
-        
-        readonly ArrayList _udpFrameList = new ArrayList();
+        private readonly ProtocolList _protocolList = new ProtocolList();
 
-        readonly ArrayList _tcpFrameList = new ArrayList();
-
-        readonly ArrayList _frameArray = new ArrayList();
-
-        readonly  ArrayList _ICMPFrameList = new ArrayList();
-
-        readonly ArrayList _EthernetFrameList = new ArrayList();
-
-        private ArrayList _ProtocolSequence = new ArrayList();
-        
-        private ArrayList _FrameLengthSequence = new ArrayList();
-
-        public ArrayList GetEthernetFrameList()
+        public ProtocolList ProtocolList
         {
-            return _EthernetFrameList;
-        }
-
-        public ArrayList GetIcmpFrameList()
-        {
-            return _ICMPFrameList;
-        }
-
-        public ArrayList GetUdpFrameList()
-        {
-            return _udpFrameList;
-        }
-
-        public ArrayList GetTcpFrameList()
-        {
-            return _tcpFrameList;
-        }
-
-        public ArrayList GetFrameList()
-        {
-            return _frameArray;
-        }
-
-        public ArrayList GetProtocolsSequence()
-        {
-            return _ProtocolSequence;
-        }
-
-        public ArrayList GetFrameLengthSequence()
-        {
-            return _FrameLengthSequence;
+            get { return _protocolList; }
         }
 
         /// <summary>Open and read pcap file
@@ -66,86 +22,84 @@ namespace PcapdotNET.Protocols
         /// <param name="fileName"></param>
         public void ReadFile(string fileName)
         {
-            if (File.Exists(fileName))
+            if (!File.Exists(fileName)) return;
+            var container = new LightInject.ServiceContainer();
+            container.Register<IProtocolChecker<EthernetFrame>, EthernetParser>("Ethernet");
+            container.Register<IProtocolChecker<ICMPFrame>, ICMPParser>("ICMP");
+            container.Register<IProtocolChecker<TCPFrame>, TCPParser>("TCP");
+            container.Register<IProtocolChecker<UDPFrame>, UdpParser>("UDP");
+
+            var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
+            // Missed header of file
+            reader.ReadBytes(PacketFields.PcapHeaderLength);
+
+            while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
-                var container = new LightInject.ServiceContainer();
-                container.Register<ITCPParser, TCPParser>();
-                container.Register<iICMPParser, ICMPParser>();
-                container.Register<IEthernetParser, EthernetParser>();
-                container.Register<IUDPParser, UdpParser>();
+                // Missed frame header
+                reader.ReadBytes(PacketFields.FrameHeaderLength); //8
 
-                var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
-                // Missed header of file
-                reader.ReadBytes(PacketFields.PcapHeaderLength);
+                // Read amount of bytes in this frame
+                uint frameLength = reader.ReadUInt32(); //4
+                ProtocolList.FrameLengthSequence.Add(frameLength);
 
-                while (reader.BaseStream.Position < reader.BaseStream.Length)
+                reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress); //4
+
+                // skip Ethernet info
+                reader.ReadBytes(PacketFields.AmountOfEthernetParts); //6
+                reader.ReadBytes(PacketFields.AmountOfEthernetParts); //6
+
+                // Missed
+                reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId); //11
+
+                // Read Protocol Identificator
+                uint protocolNumber = reader.ReadByte(); //1
+                ProtocolList.ProtocolSequence.Add(protocolNumber);
+                // byte[] dataArray = new byte[(int)(frameLength - 40)];
+
+                var dataArray = reader.ReadBytes(14);
+
+                switch (protocolNumber)
                 {
-                    // Missed frame header
-                    reader.ReadBytes(PacketFields.FrameHeaderLength); //8
-
-                    // Read amount of bytes in this frame
-                    uint frameLength = reader.ReadUInt32(); //4
-                    _FrameLengthSequence.Add(frameLength);
-
-                    reader.ReadBytes(PacketFields.BytesBetweenHeaderOfFrameAndEthernetAdress); //4
-
-                    // skip Ethernet info
-                    reader.ReadBytes(PacketFields.AmountOfEthernetParts); //6
-                    reader.ReadBytes(PacketFields.AmountOfEthernetParts); //6
-
-                    // Missed
-                    reader.ReadBytes(PacketFields.AmountOfBytesBeforeProtocolId); //11
-
-                    // Read Protocol Identificator
-                    uint protocolNumber = reader.ReadByte(); //1
-                    _ProtocolSequence.Add(protocolNumber);
-                    // byte[] dataArray = new byte[(int)(frameLength - 40)];
-
-                    var dataArray = reader.ReadBytes(14);
-
-                    switch (protocolNumber)
+                    case 1:
                     {
-                        case 1:
-                            {                                
-                                var frame = container.Create<ICMPParser>();
-                                _frameArray.Add(frame.GetICMPPackets(dataArray));
-                                _ICMPFrameList.Add(frame.GetICMPPackets(dataArray));
+                        var instance = container .GetInstance<IProtocolChecker<ICMPFrame>>("ICMP");
+                        ProtocolList.FrameArray.Add(instance.GetPacket(dataArray));
+                        ProtocolList.IcmpFrameList.Add(instance.GetPacket(dataArray));
 
-                                break;
-                            }
-
-                        case 6:
-                        {
-                                var frame = container.Create<TCPParser>();
-                                _frameArray.Add(frame.GetTCPPacket(dataArray));
-                                _tcpFrameList.Add(frame.GetTCPPacket(dataArray));
-
-                            break;
-                            }
-
-                        case 17:
-                            {
-                               var frame = container.Create<UdpParser>();
-                               _frameArray.Add(frame.GetUdpPacket(dataArray));
-                               _udpFrameList.Add(frame.GetUdpPacket(dataArray));
-                               
-                                break;
-                            }
-
-                        default:
-                        {
-                            var frame = container.Create<EthernetParser>();
-                            _frameArray.Add(frame.GetEthernetPacket(dataArray));
-                            _udpFrameList.Add(frame.GetEthernetPacket(dataArray));
-                            
-                            break;
-                        }
-                        
+                        break;
                     }
-                    reader.ReadBytes((int)(frameLength - PacketFields.EndingBytes));
+
+                    case 6:
+                    {
+                        var instance = container.GetInstance<IProtocolChecker<TCPFrame>>("TCP");
+                        ProtocolList.FrameArray.Add(instance.GetPacket(dataArray));
+                        ProtocolList.TcpFrameList.Add(instance.GetPacket(dataArray));
+
+                        break;
+                    }
+
+                    case 17:
+                    {
+                        var instance = container.GetInstance<IProtocolChecker<UDPFrame>>("UDP");
+                        ProtocolList.FrameArray.Add(instance.GetPacket(dataArray));
+                        ProtocolList.UdpFrameList.Add(instance.GetPacket(dataArray));
+                               
+                        break;
+                    }
+
+                    default:
+                    {
+                        var instance = container.GetInstance<IProtocolChecker<EthernetFrame>>("Ethernet");
+                        ProtocolList.FrameArray.Add(instance.GetPacket(dataArray));
+                        ProtocolList.UdpFrameList.Add(instance.GetPacket(dataArray));
+                            
+                        break;
+                    }
+                        
                 }
-                reader.Close();
+                reader.ReadBytes((int)(frameLength - PacketFields.EndingBytes));
             }
+            reader.Close();
         }
     }
 }

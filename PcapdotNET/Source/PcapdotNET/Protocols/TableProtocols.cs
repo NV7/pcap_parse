@@ -34,10 +34,10 @@
             "TRUNK-2",    //Trunk-2
             "LEAF-1",     //Leaf-1
             "LEAF-2",     //Leaf-2
-            "RDP",        //Reliable Data Protocol
+            "RDP",        //Reliable ProtocolList Protocol
             "IRTP",       //Internet Reliable Transaction
             "ISO-TP4",    //ISO Transport Protocol Class 4 
-            "NETBLT",     //Bulk Data Transfer Protocol
+            "NETBLT",     //Bulk ProtocolList Transfer Protocol
             "MFE-NSP",    //MFE Network Services Protocol
             "MERIT-INP",  //MERIT Internodal Protocol
             "SEP",        //Sequential Exchange Protocol
@@ -123,7 +123,7 @@
             "PGM",       //PGM Reliable Transport Protocol
             "Any_Protocol_0-hop",
             "L2TP",      //Layer Two Tunneling Protocol
-            "DDX",       //D-II Data Exchange (DDX)
+            "DDX",       //D-II ProtocolList Exchange (DDX)
             "IATP",      //Interactive Agent Transfer Protocol
             "STP",       //Schedule Transfer Protocol
             "SRP",       //SpectraLink Radio Protocol

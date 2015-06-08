@@ -7,7 +7,7 @@ namespace PcapdotNET.Protocols.ICMP
     /// <summary> Class ICMP Parser
     /// Class which read and get helpful information from .pcap file.
     /// </summary>
-    public class ICMPParser : iICMPParser
+    public class ICMPParser : iICMPParser,IProtocolChecker<ICMPFrame>
     {
         private readonly ArrayList _icmpFrameArray = new ArrayList();
 
@@ -27,7 +27,7 @@ namespace PcapdotNET.Protocols.ICMP
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public ICMPFrame GetICMPPackets(byte [] bytes)
+        public ICMPFrame GetPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
             var sourceIp = ReadSourceIp(bytes);
@@ -111,5 +111,7 @@ namespace PcapdotNET.Protocols.ICMP
         {
             throw new NotImplementedException();
         }
+
+       
     }
 }

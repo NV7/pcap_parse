@@ -8,7 +8,7 @@ namespace PcapdotNET.Protocols.UDP
     /// <summary>UDP Parser
     /// Class UDP Parser
     /// </summary>
-    public class UdpParser : IUDPParser
+    public class UdpParser : IUDPParser,IProtocolChecker<UDPFrame>
     {
         private readonly ArrayList _udpFrameArray = new ArrayList();
         private uint _frameLength;
@@ -27,7 +27,7 @@ namespace PcapdotNET.Protocols.UDP
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public UDPFrame GetUdpPacket(byte[] bytes)
+        public UDPFrame GetPacket(byte[] bytes)
         {
             // Fill Source & Destination IP
             var sourceIp = ReadSource(bytes);

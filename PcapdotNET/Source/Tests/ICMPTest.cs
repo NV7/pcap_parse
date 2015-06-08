@@ -21,7 +21,7 @@ namespace Tests
 
             test.ReadFile(@"..\..\..\Source\Tests\Testfiles\icmp_protocol.pcap");
 
-            Console.WriteLine(test.GetIcmpFrameList().Count);
+            Console.WriteLine(test.ProtocolList.GetIcmpFrameList().Count);
            
             int[] destIp = {10,10,10,11};
             int[] sourceIp = {74,125,236,132};

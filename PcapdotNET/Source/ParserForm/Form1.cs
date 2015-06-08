@@ -55,17 +55,17 @@ namespace ParserForm
             var _frame = new ProtocolChecker();
 
             _frame.ReadFile(ofd.FileName);
-            for (var i = 0; i < _frame.GetFrameList().Count; ++i)
+            for (var i = 0; i < _frame.ProtocolList.GetFrameList().Count; ++i)
             {
                 dataGridView1.Rows.Add();
-                ArrayList LengthOfEachFrame = _frame.GetFrameLengthSequence();
+                ArrayList LengthOfEachFrame = _frame.ProtocolList.GetFrameLengthSequence();
                 
 
-                switch ((uint)_frame.GetProtocolsSequence()[i])
+                switch ((uint)_frame.ProtocolList.GetProtocolsSequence()[i])
                 {
                     case 1:
                         {
-                            var _currentframe = (ICMPFrame)_frame.GetFrameList()[i];
+                            var _currentframe = (ICMPFrame)_frame.ProtocolList.GetFrameList()[i];
                             dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
                             dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
                             dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
@@ -78,7 +78,7 @@ namespace ParserForm
 
                     case 6:
                         {
-                            var _currentframe = (TCPFrame)_frame.GetFrameList()[i];
+                            var _currentframe = (TCPFrame)_frame.ProtocolList.GetFrameList()[i];
                             dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
                             dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
                             dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
@@ -91,7 +91,7 @@ namespace ParserForm
 
                     case 17:
                         {
-                            var _currentframe = (UDPFrame)_frame.GetFrameList()[i];
+                            var _currentframe = (UDPFrame)_frame.ProtocolList.GetFrameList()[i];
                             dataGridView1.Rows[i].Cells["numbercolumn"].Value = i + 1;
                             dataGridView1.Rows[i].Cells["protocolcolumn"].Value = _currentframe.GetProtocolName();
                             dataGridView1.Rows[i].Cells["sourceipcolumn"].Value = _currentframe.GetSourceIp();
